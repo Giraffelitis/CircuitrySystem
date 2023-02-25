@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2023 by Pace Abbott. All Rights Reserved.
 
 
 #include "CS_BatteryPack.h"

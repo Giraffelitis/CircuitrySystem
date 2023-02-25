@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright 2023 by Pace Abbott. All Rights Reserved.
 
 #pragma once
 
