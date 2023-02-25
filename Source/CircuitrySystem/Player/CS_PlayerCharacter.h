@@ -25,7 +25,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void PickupAction();	
-	
+
+	FRotator CarriedObjectRoation;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

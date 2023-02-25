@@ -20,6 +20,8 @@ ACS_PlayerCharacter::ACS_PlayerCharacter()
 	GrabLocation->SetupAttachment(Camera);
 
 	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>("Physics Handle");
+
+	bItemPickedUp = false;
 	
 }
 
@@ -37,32 +39,41 @@ void ACS_PlayerCharacter::BeginPlay()
 
 void ACS_PlayerCharacter::PickupAction()
 {
+	APlayerCameraManager* PlayerCamera = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+	
 	//Object Hit
 	FHitResult OutHit;
 
 	//Trace starting point
-	FVector StartLocation = Camera->GetComponentLocation();
+	FVector StartLocation = PlayerCamera->GetCameraLocation();
 
 	//Trace ending point
-	FVector EndLocation = (Camera->GetForwardVector() * PickupDistance) + StartLocation;
+	FVector EndLocation = (PlayerCamera->GetActorForwardVector() * PickupDistance) + StartLocation;
 
 	//Trace Collision channels
 	ECollisionChannel CollisionChannel = ECC_WorldDynamic;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
 	
 	//Are our hands empty	
 	if(!bItemPickedUp)
 	{
-		//Linetrace to detect object
-		bItemPickedUp = GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, CollisionChannel);
+		//LineTrace to detect object
+		GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, CollisionChannel, QueryParams);
+		UPrimitiveComponent* HitComponent = OutHit.GetComponent();
 
-		//Check if object is Simulating Physics
-		if(OutHit.Component->IsSimulatingPhysics())
-		{
-			//Grab Object change its collision and dampening
-			PhysicsHandle->GrabComponentAtLocation(OutHit.GetComponent(), FName() ,GrabLocation->GetComponentLocation());
-			DefaultDampening = PhysicsHandle->GetGrabbedComponent()->GetLinearDamping();
-			PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
-			
+		if(IsValid(HitComponent))
+		{			
+			//Check if object is Simulating Physics
+			if(HitComponent->IsSimulatingPhysics())
+			{
+				//Grab Object change its collision and dampening
+				PhysicsHandle->GrabComponentAtLocationWithRotation(HitComponent, FName() , HitComponent->GetComponentLocation() , FRotator(HitComponent->GetRelativeRotation()));
+				DefaultDampening = PhysicsHandle->GetGrabbedComponent()->GetLinearDamping();
+				PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+				bItemPickedUp = true;
+			}			
 		}
 	}
 	else
@@ -71,23 +82,27 @@ void ACS_PlayerCharacter::PickupAction()
 		PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(DefaultDampening);
 		PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
 		PhysicsHandle->ReleaseComponent();
+		bItemPickedUp = false;
 	}
 }
-
-
 
 // Called every frame
 void ACS_PlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 	//Does character have something picked up?
 	if(bItemPickedUp)
 	{
+		FVector GrabLoc = (GrabLocation->GetComponentToWorld().GetLocation());
+		FVector ForwardDirection = GetViewRotation().Vector();
 		//Move object to Grab location and change its linear dampening
-		PhysicsHandle->SetTargetLocation(GrabLocation->GetComponentLocation());
+		PhysicsHandle->SetTargetLocationAndRotation(GetActorLocation() + (ForwardDirection * 200.0f) , CarriedObjectRoation);
 		PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(AdjustedDampening);
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, ForwardDirection.ToString());
 	}
+	
 }
 
 // Called to bind functionality to input
