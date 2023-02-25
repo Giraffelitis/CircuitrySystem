@@ -12,17 +12,18 @@ ACS_PlayerController::ACS_PlayerController()
 	TurnRateGamepad = 45.f;
 }
 
-void ACS_PlayerController::SetupInputComponent()
+void ACS_PlayerController::SetupInput()
 {
+	check(InputComponent)
 	UCS_EnhancedInputComponent* CSEnhancedInputComponent = Cast<UCS_EnhancedInputComponent>(InputComponent);
 
 	//Make sure to set your input component class in the InputSettings->DefaultClasses
-	check(CSEnhancedInputComponent)
-		//check(CSEnhancedInputComponent);
-		
+	if(!ensure(CSEnhancedInputComponent))
+		return;
+		//check(CSEnhancedInputComponent);		
 
 		const FCS_GameplayTags& GameplayTags = FCS_GameplayTags::Get();
-
+	
 		//Bind Input actions by tag
 		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Move);
 		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);

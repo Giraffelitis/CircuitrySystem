@@ -95,5 +95,5 @@ void ACS_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//Cast<ACS_PlayerController>(Controller)->SetupInput();
+	Cast<ACS_PlayerController>(Controller)->SetupInput();
 }

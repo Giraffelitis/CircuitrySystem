@@ -24,7 +24,7 @@ public:
 	ACS_PlayerController();
 	
 	/** The input config that maps Input Actions to Input Tags*/
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UPROPERTY(EditDefaultsOnly, Category = "Inputed")
 	UCS_InputConfig* InputConfig;
 
 	/** Handles moving forward/backward */
@@ -51,7 +51,8 @@ public:
 	 */
 	void LookUpAtRate(float Rate);
 	
-	virtual void SetupInputComponent() override;
+	//virtual void SetupInputComponent() override;
+	void SetupInput();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)

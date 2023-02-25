@@ -7,6 +7,7 @@
 #include "InputAction.h"
 #include "CS_InputConfig.h"
 #include "GameplayTagContainer.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "CS_EnhancedInputComponent.generated.h"
 
 /**
@@ -28,7 +29,9 @@ public:
 template<class UserClass, typename FuncType>
 void UCS_EnhancedInputComponent::BindActionByTag(const UCS_InputConfig* InputConfig, const FGameplayTag& InputTag, ETriggerEvent TriggerEvent, UserClass* Object, FuncType Func)
 {
-	check(InputConfig);
+	if(!ensure(InputConfig))
+		return;
+		
 	if (const UInputAction* IA = InputConfig->FindInputActionForTag(InputTag))
 	{
 		BindAction(IA, TriggerEvent, Object, Func);
