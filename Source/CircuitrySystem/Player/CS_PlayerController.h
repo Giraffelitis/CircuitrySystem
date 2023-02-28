@@ -24,7 +24,7 @@ public:
 	ACS_PlayerController();
 	
 	/** The input config that maps Input Actions to Input Tags*/
-	UPROPERTY(EditDefaultsOnly, Category = "Inputed")
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UCS_InputConfig* InputConfig;
 
 	/** Handles moving forward/backward */
@@ -38,6 +38,19 @@ public:
 
 	/** Handles Pickup */
 	void Input_Pickup(const FInputActionValue& InputActionValue);
+
+	/** Handles Primary Support Action */
+	void Input_Primary_Support_Action(const FInputActionValue& InputActionValue);
+
+	/** Handles Secondary Support Action */
+	void Input_Secondary_Support_Action(const FInputActionValue& InputActionValue);
+
+	/** Handles Input Modifier Pressed */
+	void Input_Modifier_Pressed(const FInputActionValue& InputActionValue);
+
+	/** Handles Input Modifier Released */
+	void Input_Modifier_Released(const FInputActionValue& InputActionValue);
+
 
 	/**
 	 * Called via input to turn at a given rate.

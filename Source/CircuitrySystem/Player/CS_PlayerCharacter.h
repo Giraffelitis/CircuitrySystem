@@ -24,24 +24,36 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void PickupAction();	
+	void PickupAction();
+	void PrimarySupportAction();
+	void SecondarySupportAction();
 
 	FRotator CarriedObjectRoation;
+
+	bool InputModifier;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float PickupDistance;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float DefaultDampening;
 
+	UPROPERTY(EditAnywhere, Category = "Item Pickup")
+	float RotationDegree;
+
+	UPROPERTY(EditAnywhere, Category = "Item Pickup")
+	float ObjectHeldDistance;
+	
 private:
 	
 	bool bItemPickedUp;
-	
-	float AdjustedDampening;	
+
+	float AdjustedDampening;
+
 
 	UPROPERTY()
 	UCameraComponent* Camera;

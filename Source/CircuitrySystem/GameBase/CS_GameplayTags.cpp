@@ -29,7 +29,13 @@ void FCS_GameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 	AddTag(InputTag_Look_Mouse, "InputTag.Look.Mouse", "Look (mouse) input.");
 	AddTag(InputTag_Look_Stick, "InputTag.Look.Stick", "Look (stick) input.");
 	AddTag(InputTag_Jump, "InputTag.Jump", "Jump input");
-	AddTag(InputTag_Pickup, "InputTag.Pickup", "Pickup input.");
+	AddTag(InputTag_Action_Pickup, "InputTag.Pickup", "Pickup input.");
+	AddTag(InputTag_Action_Support_Primary, "InputTag.Action.Support.Primary", "Primary support action");
+	AddTag(InputTag_Action_Support_Secondary, "InputTag.Action.Support.Secondary", "Secondary support action");
+
+	AddTag(InputTag_Modifier_Pressed, "InputTag.Modifier.Pressed", "Input Modifier Pressed");
+	AddTag(InputTag_Modifier_Released, "InputTag.Modifier.Released", "Input Modifier Released");
+	
 }
 
 void FCS_GameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)

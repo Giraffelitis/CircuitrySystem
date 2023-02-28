@@ -22,15 +22,19 @@ void ACS_PlayerController::SetupInput()
 		return;
 		//check(CSEnhancedInputComponent);		
 
-		const FCS_GameplayTags& GameplayTags = FCS_GameplayTags::Get();
-	
-		//Bind Input actions by tag
-		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Move);
-		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);
-		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);
-		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Pickup, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Pickup);
-		CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Jump, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Jump);
-		
+	const FCS_GameplayTags& GameplayTags = FCS_GameplayTags::Get();
+
+	//Bind Input actions by tag
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Move);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Action_Pickup, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Pickup);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Jump, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Jump);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Action_Support_Primary, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Primary_Support_Action);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Action_Support_Secondary, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Secondary_Support_Action);
+
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Pressed, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Modifier_Pressed);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Released, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Modifier_Released);	
 }
 
 void ACS_PlayerController::Input_Move(const FInputActionValue& InputActionValue)
@@ -89,4 +93,28 @@ void ACS_PlayerController::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	GetPawn()->AddControllerPitchInput(Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
+}
+
+/** Handles Primary Support Action */
+void ACS_PlayerController::Input_Primary_Support_Action(const FInputActionValue& InputActionValue)
+{
+	Cast<ACS_PlayerCharacter>(GetCharacter())->PrimarySupportAction();
+}
+
+/** Handles Secondary Support Action */
+void ACS_PlayerController::Input_Secondary_Support_Action(const FInputActionValue& InputActionValue)
+{
+	Cast<ACS_PlayerCharacter>(GetCharacter())->SecondarySupportAction();
+}
+
+/** Handles Input Modifier */
+void ACS_PlayerController::Input_Modifier_Pressed(const FInputActionValue& InputActionValue)
+{
+	Cast<ACS_PlayerCharacter>(GetCharacter())->InputModifier = true;
+}
+
+/** Handles Input Modifier */
+void ACS_PlayerController::Input_Modifier_Released(const FInputActionValue& InputActionValue)
+{
+	Cast<ACS_PlayerCharacter>(GetCharacter())->InputModifier = false;
 }

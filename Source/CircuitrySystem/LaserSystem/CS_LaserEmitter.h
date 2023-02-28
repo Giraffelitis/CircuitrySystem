@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "CS_LaserEmitter.generated.h"
 
+class ACS_LaserBeam;
 class UArrowComponent;
 
 UCLASS()
@@ -17,12 +18,17 @@ public:
 	// Sets default values for this actor's properties
 	ACS_LaserEmitter();
 
-	UPROPERTY(EditAnywhere)
-	bool bDebugDraw;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	ACS_LaserBeam* SpawnBeam();
+	
+	void ShowBeam(int ArrayIndex, FTransform NewTransform);
+	
+	void HideBeam(int ArrayIndex);
+
+	bool StartLaserTrace(FVector &TraceStart, FVector &TraceEnd, FCollisionQueryParams QueryParams, TArray<FHitResult> &OutHitArray, float &TotalBeamLength, int Index);
 
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* BaseMesh;
@@ -42,17 +48,31 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Trace")
 	TEnumAsByte<ECollisionChannel> CollisionChannel;
 
-private:
-	bool bBlockingHit;
-	FHitResult HitActor;
-	FColor LineColor;
-	FVector StartLocation;
-	FVector EndLocation;
-	FCollisionObjectQueryParams ObjectQueryParams;
+	UPROPERTY()
+	TArray<ACS_LaserBeam*> BeamArray;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ACS_LaserBeam> LaserBeam_Class;
+
+	UPROPERTY(EditAnywhere)
+	int MaxDeflections;
+
+	UPROPERTY(EditAnywhere)
 	float MaxLaserDistance;
+	
+private:
+	FColor LineColor;
+	FCollisionObjectQueryParams ObjectQueryParams;
+	float DistanceTraveled;	
+	FTransform BeamTransform;
+	FVector LaserDefaultLocation;
+	FRotator LaserDefaultRotation;
+	FVector LaserDefaultScale;
 	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
+	void GenerateLaser();
+	
 };

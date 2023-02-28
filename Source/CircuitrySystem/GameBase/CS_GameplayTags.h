@@ -24,7 +24,11 @@ struct FCS_GameplayTags
 	FGameplayTag InputTag_Look_Mouse;
 	FGameplayTag InputTag_Look_Stick;
 	FGameplayTag InputTag_Jump;
-	FGameplayTag InputTag_Pickup;
+	FGameplayTag InputTag_Action_Pickup;
+	FGameplayTag InputTag_Action_Support_Primary;
+	FGameplayTag InputTag_Action_Support_Secondary;
+	FGameplayTag InputTag_Modifier_Pressed;
+	FGameplayTag InputTag_Modifier_Released;
 
 protected:
 

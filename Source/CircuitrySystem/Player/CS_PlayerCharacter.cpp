@@ -21,7 +21,19 @@ ACS_PlayerCharacter::ACS_PlayerCharacter()
 
 	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>("Physics Handle");
 
+	//Is character carrying an object in front of it?
 	bItemPickedUp = false;
+	//Distance objects are held in front of character
+	ObjectHeldDistance = 200.0f;
+
+	//How fast the object rotates
+	RotationDegree = 1.0f;
+	
+	//Picked up object Dampening;
+	AdjustedDampening = 1000.0f;
+
+	// Maximum distance away and object can be picked up from
+	PickupDistance = 300.0f;
 	
 }
 
@@ -30,13 +42,31 @@ void ACS_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Picked up object Dampening;
-	AdjustedDampening = 1000.0f;
-
-	// Maximum distance away and object can be picked up from
-	PickupDistance = 300.0f;
+	
 }
 
+// Called every frame
+void ACS_PlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	//Does character have something picked up?
+	if(bItemPickedUp)
+	{
+		//Move object to Grab location and change its linear dampening
+		PhysicsHandle->SetTargetLocationAndRotation(GetActorLocation() + (GetViewRotation().Vector() * ObjectHeldDistance) , CarriedObjectRoation);
+	}
+	
+}
+
+// Called to bind functionality to input
+void ACS_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	Cast<ACS_PlayerController>(Controller)->SetupInput();
+}
+	
 void ACS_PlayerCharacter::PickupAction()
 {
 	APlayerCameraManager* PlayerCamera = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
@@ -72,6 +102,8 @@ void ACS_PlayerCharacter::PickupAction()
 				PhysicsHandle->GrabComponentAtLocationWithRotation(HitComponent, FName() , HitComponent->GetComponentLocation() , FRotator(HitComponent->GetRelativeRotation()));
 				DefaultDampening = PhysicsHandle->GetGrabbedComponent()->GetLinearDamping();
 				PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+				PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(AdjustedDampening);
+				CarriedObjectRoation = HitComponent->GetRelativeRotation();
 				bItemPickedUp = true;
 			}			
 		}
@@ -85,30 +117,34 @@ void ACS_PlayerCharacter::PickupAction()
 		bItemPickedUp = false;
 	}
 }
-
-// Called every frame
-void ACS_PlayerCharacter::Tick(float DeltaTime)
+void ACS_PlayerCharacter::PrimarySupportAction()
 {
-	Super::Tick(DeltaTime);
-	
-	//Does character have something picked up?
+	//Rotates Object being held
 	if(bItemPickedUp)
 	{
-		FVector GrabLoc = (GrabLocation->GetComponentToWorld().GetLocation());
-		FVector ForwardDirection = GetViewRotation().Vector();
-		//Move object to Grab location and change its linear dampening
-		PhysicsHandle->SetTargetLocationAndRotation(GetActorLocation() + (ForwardDirection * 200.0f) , CarriedObjectRoation);
-		PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(AdjustedDampening);
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, ForwardDirection.ToString());
+		if(InputModifier)
+		{
+			CarriedObjectRoation.Pitch += RotationDegree;
+		}
+		else
+		{
+			CarriedObjectRoation.Yaw += RotationDegree;
+		}
 	}
-	
 }
-
-// Called to bind functionality to input
-void ACS_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ACS_PlayerCharacter::SecondarySupportAction()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	Cast<ACS_PlayerController>(Controller)->SetupInput();
+	//Counter Rotates Object being held
+	if(bItemPickedUp)
+	{
+		if(InputModifier)
+		{
+			CarriedObjectRoation.Pitch -= RotationDegree;
+		}
+		else
+		{
+			CarriedObjectRoation.Yaw -= RotationDegree;
+		}
+	}
 }
+
