@@ -63,8 +63,7 @@ void ACS_PlayerCharacter::Tick(float DeltaTime)
 void ACS_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	Cast<ACS_PlayerController>(Controller)->SetupInput();
+	
 }
 	
 void ACS_PlayerCharacter::PickupAction()
@@ -117,6 +116,7 @@ void ACS_PlayerCharacter::PickupAction()
 		bItemPickedUp = false;
 	}
 }
+
 void ACS_PlayerCharacter::PrimarySupportAction()
 {
 	//Rotates Object being held

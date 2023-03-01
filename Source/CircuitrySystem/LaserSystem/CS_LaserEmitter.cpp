@@ -4,9 +4,8 @@
 #include "CS_LaserEmitter.h"
 #include "CS_LaserBeam.h"
 #include "CS_ReflectiveInterface.h"
-#include "Editor.h"
-#include "VectorTypes.h"
-#include "BehaviorTree/BehaviorTreeTypes.h"
+#include "Macros.h"
+#include "CircuitrySystem/PowerSystem/CS_PowerComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -54,9 +53,15 @@ ACS_LaserBeam* ACS_LaserEmitter::SpawnBeam()
 {
 	LaserDefaultLocation =  Arrow->GetComponentLocation() - FVector(15.0f, 0.0f, 0.0f);
 	LaserDefaultRotation = Arrow->GetComponentRotation();
-	ACS_LaserBeam* Beam = GetWorld()->SpawnActor<ACS_LaserBeam>(LaserBeam_Class, LaserDefaultLocation, LaserDefaultRotation);
+	ACS_LaserBeam* Beam = GetWorld()->SpawnActor<ACS_LaserBeam>(LaserBeamClass, LaserDefaultLocation, LaserDefaultRotation);
+	if(!IsValid(Beam))
+#if !UE_BUILD_SHIPPING
+	PRINTF(-1, 1.0f, FColor::Black, "Cast Failed %p", Beam)
+#endif
+	
 	Beam->SetMobility(EComponentMobility::Movable);
 	return Beam;
+	
 }
 
 void ACS_LaserEmitter::ShowBeam(int ArrayIndex, FTransform NewTransform)
@@ -86,9 +91,9 @@ void ACS_LaserEmitter::GenerateLaser()
 	FVector TraceEnd =  Arrow->GetForwardVector() * MaxLaserDistance + TraceStart;
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
-	QueryParams.AddIgnoredActor(Cast<ACS_LaserBeam>(LaserBeam_Class));	
+	QueryParams.AddIgnoredActor(Cast<ACS_LaserBeam>(LaserBeamClass));
 	TArray<FHitResult> OutHitArray;
-	float TotalBeamLength;
+	float TotalBeamLength = 0;
 
 	bool bLaserDidHit = StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, TotalBeamLength, 0);
 	
@@ -121,21 +126,28 @@ bool ACS_LaserEmitter::StartLaserTrace(FVector &TraceStart, FVector &TraceEnd, F
 	{
 		/** Collect Results for Initial Line Trace and update Beam Mesh Transform **/
 		OutHitArray.Add(OutHit);
-		BeamLength = OutHit.Distance / 10.0f;
-		TotalBeamLength += BeamLength;
-		FVector LaserScale = FVector(BeamLength, 1.0f, 1.0f);
+		TotalBeamLength += OutHit.Distance;
+		BeamLength = OutHit.Distance / 10.0f;		
+		FVector LaserScale = FVector(BeamLength + 0.5f , 1.0f, 1.0f);
 		FRotator LaserRotation = UKismetMathLibrary::FindLookAtRotation(TraceStart, TraceEnd);
 		FTransform UpdateTransform = FTransform(LaserRotation, TraceStart, LaserScale);
 		ShowBeam(NumOfDeflects, UpdateTransform);
 
 		TraceStart = OutHit.Location;
-		TraceEnd = FMath::GetReflectionVector(LaserDirectionVector, OutHit.Normal) * ((MaxLaserDistance - TotalBeamLength) * 10)  + TraceStart;
-		bool bIsImplemented = OutHit.GetActor()->Implements<UCS_ReflectiveInterface>();
-		
-		return bIsImplemented;
+		TraceEnd = FMath::GetReflectionVector(LaserDirectionVector, OutHit.Normal) * (MaxLaserDistance - OutHit.Distance)  + TraceStart;
+		if (OutHit.GetActor()->Implements<UCS_ReflectiveInterface>())
+		{
+			return true;
+		}
+		UActorComponent* PowerComponent = Cast<UCS_PowerComponent>(OutHit.GetActor()->GetComponentByClass(PowerComponentClass));
+		if(IsValid(PowerComponent))
+		{
+			ICS_PoweredInterface::Execute_IsPowered(PowerComponent);
+		}
+		return false;				
 	}
 	
-	BeamLength = MaxLaserDistance - TotalBeamLength;
+	BeamLength = (MaxLaserDistance - TotalBeamLength) / 10;
 	FVector LaserScale = FVector(BeamLength, 1.0f, 1.0f);
 	FRotator LaserRotation = UKismetMathLibrary::FindLookAtRotation(TraceStart, TraceEnd);
 	FTransform UpdateTransform = FTransform( LaserRotation, TraceStart, LaserScale);		

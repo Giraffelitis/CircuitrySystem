@@ -51,7 +51,6 @@ public:
 	/** Handles Input Modifier Released */
 	void Input_Modifier_Released(const FInputActionValue& InputActionValue);
 
-
 	/**
 	 * Called via input to turn at a given rate.
 	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
@@ -64,8 +63,7 @@ public:
 	 */
 	void LookUpAtRate(float Rate);
 	
-	//virtual void SetupInputComponent() override;
-	void SetupInput();
+	virtual void SetupInputComponent() override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)

@@ -3,24 +3,27 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CS_PoweredInterface.h"
 #include "GameFramework/Actor.h"
 #include "CS_PowerBase.generated.h"
 
+class UCS_PowerComponent;
 UCLASS()
-class ACS_PowerBase : public AActor
+class ACS_PowerBase : public AActor, public ICS_PoweredInterface
 {
 	GENERATED_BODY()
 	
-public:	
+protected:	
 	// Sets default values for this actor's properties
 	ACS_PowerBase();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	virtual void IsPowered_Implementation() override;
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void HasPower() {};
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere)
+	UCS_PowerComponent* PowerComponent;
+
 
 };

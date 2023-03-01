@@ -8,6 +8,7 @@
 
 class ACS_LaserBeam;
 class UArrowComponent;
+class UCS_PowerComponent;
 
 UCLASS()
 class ACS_LaserEmitter : public AActor
@@ -52,7 +53,9 @@ protected:
 	TArray<ACS_LaserBeam*> BeamArray;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ACS_LaserBeam> LaserBeam_Class;
+	TSubclassOf<ACS_LaserBeam> LaserBeamClass;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UCS_PowerComponent> PowerComponentClass;
 
 	UPROPERTY(EditAnywhere)
 	int MaxDeflections;

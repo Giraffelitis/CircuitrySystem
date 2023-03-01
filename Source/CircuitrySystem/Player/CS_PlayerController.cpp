@@ -12,15 +12,16 @@ ACS_PlayerController::ACS_PlayerController()
 	TurnRateGamepad = 45.f;
 }
 
-void ACS_PlayerController::SetupInput()
+void ACS_PlayerController::SetupInputComponent()
 {
+	Super::SetupInputComponent();
+	
 	check(InputComponent)
 	UCS_EnhancedInputComponent* CSEnhancedInputComponent = Cast<UCS_EnhancedInputComponent>(InputComponent);
 
 	//Make sure to set your input component class in the InputSettings->DefaultClasses
 	if(!ensure(CSEnhancedInputComponent))
-		return;
-		//check(CSEnhancedInputComponent);		
+		return;	
 
 	const FCS_GameplayTags& GameplayTags = FCS_GameplayTags::Get();
 
