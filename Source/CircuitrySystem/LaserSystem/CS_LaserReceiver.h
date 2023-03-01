@@ -3,15 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
+#include "CircuitrySystem/PowerSystem/CS_PoweredInterface.h"
 #include "GameFramework/Actor.h"
 #include "CS_LaserReceiver.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FIsReceivingPower);
 
 class UCS_PowerComponent;
 class ACS_LaserBeam;
 
 UCLASS()
-class CIRCUITRYSYSTEM_API ACS_LaserReceiver : public AActor
+class CIRCUITRYSYSTEM_API ACS_LaserReceiver : public AActor, public ICS_PoweredInterface
 {
 	GENERATED_BODY()
 	
@@ -19,30 +21,19 @@ public:
 	// Sets default values for this actor's properties
 	ACS_LaserReceiver();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* BaseMesh;
-
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* SphereComponent;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	/** Delegate to whom anyone can subscribe to receive this event */
+	UPROPERTY(BlueprintAssignable, Category = "Power")
+	FIsReceivingPower IsReceivingPower;
 	
-	UPROPERTY(VisibleAnywhere)
-	UCS_PowerComponent* PowerComp;
-
 	UPROPERTY()
 	bool bIsPowered;
 
-private:
-	TSubclassOf<ACS_LaserBeam> LaserBeamClass;
+protected:
 
-	UPROPERTY()
-	TArray<AActor*> OverlappingActors;
+	virtual void IsPowered_Implementation() override;
+
+private:
 	
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* BaseMesh;
 };

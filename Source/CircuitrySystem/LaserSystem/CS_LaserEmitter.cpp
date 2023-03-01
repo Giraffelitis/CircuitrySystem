@@ -139,10 +139,9 @@ bool ACS_LaserEmitter::StartLaserTrace(FVector &TraceStart, FVector &TraceEnd, F
 		{
 			return true;
 		}
-		UActorComponent* PowerComponent = Cast<UCS_PowerComponent>(OutHit.GetActor()->GetComponentByClass(PowerComponentClass));
-		if(IsValid(PowerComponent))
+		if(OutHit.GetActor()->Implements<UCS_PoweredInterface>())
 		{
-			ICS_PoweredInterface::Execute_IsPowered(PowerComponent);
+			ICS_PoweredInterface::Execute_IsPowered(OutHit.GetActor());
 		}
 		return false;				
 	}
