@@ -3,17 +3,27 @@
 
 #include "CS_PowerBase.h"
 
-#include "CS_PowerComponent.h"
-
 // Sets default values
 ACS_PowerBase::ACS_PowerBase()
 {
-	PowerComponent = CreateDefaultSubobject<UCS_PowerComponent>("PowerComp");
 }
 
 void ACS_PowerBase::IsPowered_Implementation()
 {
-	HasPower();
+	if(!bIsPowered)
+	{
+		HasPower();
+		bIsPowered = true;
+	}
+}
+
+void ACS_PowerBase::IsNotPowered_Implementation()
+{
+	if(bIsPowered)
+	{
+		LostPower();
+		bIsPowered = false;
+	}
 }
 
 

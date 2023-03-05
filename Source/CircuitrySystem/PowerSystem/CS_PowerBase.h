@@ -18,12 +18,14 @@ protected:
 	ACS_PowerBase();
 
 	virtual void IsPowered_Implementation() override;
+	virtual void IsNotPowered_Implementation() override;
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void HasPower() {};
 
-	UPROPERTY(EditAnywhere)
-	UCS_PowerComponent* PowerComponent;
+	UFUNCTION(BlueprintCallable)
+	virtual void LostPower() {};
 
-
+	UPROPERTY()
+	bool bIsPowered;
 };

@@ -8,8 +8,8 @@
 #include "CS_LaserReceiver.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FIsReceivingPower);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLostPower);
 
-class UCS_PowerComponent;
 class ACS_LaserBeam;
 
 UCLASS()
@@ -24,16 +24,25 @@ public:
 	/** Delegate to whom anyone can subscribe to receive this event */
 	UPROPERTY(BlueprintAssignable, Category = "Power")
 	FIsReceivingPower IsReceivingPower;
+
+	UPROPERTY(BlueprintAssignable, Category = "Power")
+	FIsReceivingPower LostPower;
+	
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* BaseMesh;
 	
 	UPROPERTY()
-	bool bIsPowered;
-
+	bool bIsPowered;	
+	
 protected:
 
 	virtual void IsPowered_Implementation() override;
 
+	virtual void IsNotPowered_Implementation() override;
+
 private:
 	
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* BaseMesh;
+	UPROPERTY()
+	USceneComponent* SceneComp;
+
 };

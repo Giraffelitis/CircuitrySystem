@@ -6,8 +6,12 @@
 #include "GameFramework/Character.h"
 #include "CS_PlayerCharacter.generated.h"
 
+class ACS_BuildHelperMesh;
 class UPhysicsHandleComponent;
 class UCameraComponent;
+struct FInputActionValue;
+class UStaticMeshComponent;
+class UCS_InputConfig;
 
 UCLASS()
 class CIRCUITRYSYSTEM_API ACS_PlayerCharacter : public ACharacter
@@ -15,29 +19,69 @@ class CIRCUITRYSYSTEM_API ACS_PlayerCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+	
 	ACS_PlayerCharacter();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* f_PlayerInputComponent) override;
 
-	void PickupAction();
-	void PrimarySupportAction();
-	void SecondarySupportAction();
+	virtual void Tick(float DeltaTime) override;
+	
+	virtual void BeginPlay() override;
 
-	FRotator CarriedObjectRoation;
+	void StartJump();
+	virtual void Jump() override;
+	void EndJump();
+	virtual void StopJumping() override;
+	
+	void StartCrouch();
+	virtual void Crouch(bool f_bClientSimulation) override;
+	void EndCrouch();
+	virtual void UnCrouch(bool f_bClientSimulation) override;
+	
+	void ApplyAltModifier();
+	void RemoveAltModifier();	
+	bool GetAltModifier() const { return bInBuildMode; }
+	void SetAltModifier(bool f_Enabled);
+	
+	void ApplyShiftModifier();
+	void RemoveShiftModifier();	
+	bool GetShiftModifier() const { return bInBuildMode; }
+	void SetShiftModifier(bool f_Enabled);
+	
+	void InputMouseWheelUp(const FInputActionValue& f_InputActionValue);
+	void InputMouseWheelDown(const FInputActionValue& f_InputActionValue);
 
-	bool InputModifier;
+
+	virtual void FellOutOfWorld(const UDamageType& f_DmgType) override;
+	void OnDeath(bool f_IsFellOut);
+
+	void RotateObjectPos(const FInputActionValue& f_InputActionValue);
+	
+	void RotateObjectNeg(const FInputActionValue& f_InputActionValue);
+
+	UFUNCTION()
+	void PickupItem();
+
+	UPROPERTY()
+	FRotator CarriedObjectRotation;
+	
+	UPROPERTY(EditAnywhere)
+	float CarryOffset;
+	
+	UPROPERTY()
+	bool AltModifier;
+	
+	bool ShiftModifier;
+
+	/** The input config that maps Input Actions to Input Tags*/
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UCS_InputConfig* InputConfig;
 	
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditAnywhere, Category = "Item Pickup")
-	float PickupDistance;
+	float InteractDistance;
 
 	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float DefaultDampening;
@@ -54,7 +98,6 @@ private:
 
 	float AdjustedDampening;
 
-
 	UPROPERTY()
 	UCameraComponent* Camera;
 
@@ -63,4 +106,43 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	UArrowComponent* GrabLocation;
+
+	/**************************************/
+	/* Build Mode for all Characters */
+	/**************************************/
+
+	public:
+	
+	UFUNCTION(BlueprintCallable, Category = "Build")
+	void ToggleBuildMode();
+	
+	FHitResult BuildHelperLineTrace(float f_MaxBuildDistance);
+
+	UFUNCTION(BlueprintCallable, Category = "Build")
+	bool GetBuildMode() const { return bInBuildMode; }
+	
+	UFUNCTION(BlueprintCallable, Category = "Build")
+	void SetBuildMode(bool f_Enabled);
+	
+	UFUNCTION(BlueprintCallable, Category = "Build")
+	void SpawnBuildComponent();
+
+	UFUNCTION()
+	void DestroyBuildComponent();
+	
+protected:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Build")
+	TSubclassOf<ACS_BuildHelperMesh> BuildClass;
+	
+	UPROPERTY(EditAnywhere, Category = "Build")
+	ACS_BuildHelperMesh* BuildHelper;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Build")
+	float MaxBuildDistance;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Build")
+	bool bInBuildMode;
 };
+
+

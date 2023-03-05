@@ -8,7 +8,17 @@ public class CircuitrySystem : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG", "GameplayTags", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", 
+			"CoreUObject", 
+			"Engine", 
+			"InputCore", 
+			"UMG", 
+			"GameplayTags", 
+			"EnhancedInput", 
+			"PhysicsCore"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

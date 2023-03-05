@@ -16,7 +16,7 @@ class CIRCUITRYSYSTEM_API ACS_LaserBeam : public AStaticMeshActor
 
 	ACS_LaserBeam();
 
-	void SetLaserBeamTransform(FTransform NewTransform);
+	void SetLaserBeamTransform(FTransform f_NewTransform);
 
 	UPROPERTY()
 	UStaticMesh* BaseMesh;

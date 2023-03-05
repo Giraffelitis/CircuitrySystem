@@ -24,11 +24,25 @@ struct FCS_GameplayTags
 	FGameplayTag InputTag_Look_Mouse;
 	FGameplayTag InputTag_Look_Stick;
 	FGameplayTag InputTag_Jump;
-	FGameplayTag InputTag_Action_Pickup;
-	FGameplayTag InputTag_Action_Support_Primary;
-	FGameplayTag InputTag_Action_Support_Secondary;
-	FGameplayTag InputTag_Modifier_Pressed;
-	FGameplayTag InputTag_Modifier_Released;
+	FGameplayTag InputTag_Crouch_Pressed;	
+	FGameplayTag InputTag_Crouch_Released;
+	
+	FGameplayTag InputTag_Interaction_RotatePos;
+	FGameplayTag InputTag_Interaction_RotateNeg;
+	FGameplayTag InputTag_Interaction_Pickup;
+	
+	FGameplayTag InputTag_Build_ToggleBuild;
+	FGameplayTag InputTag_Build_SpawnComponent;
+	FGameplayTag InputTag_Build_DestroyComponent;
+	
+	FGameplayTag InputTag_MouseWheel_Up;
+	FGameplayTag InputTag_MouseWheel_Down;
+	FGameplayTag InputTag_Modifier_Alt_Pressed;
+	FGameplayTag InputTag_Modifier_Alt_Released;
+	FGameplayTag InputTag_Modifier_Ctrl_Pressed;
+	FGameplayTag InputTag_Modifier_Ctrl_Released;
+	FGameplayTag InputTag_Modifier_Shift_Pressed;
+	FGameplayTag InputTag_Modifier_Shift_Released;	
 
 protected:
 

@@ -5,9 +5,10 @@
 #include "CS_LaserBeam.h"
 #include "CS_ReflectiveInterface.h"
 #include "Macros.h"
-#include "CircuitrySystem/PowerSystem/CS_PowerComponent.h"
+#include "CircuitrySystem/PowerSystem/CS_PoweredInterface.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
 
 // Sets default values
 ACS_LaserEmitter::ACS_LaserEmitter()
@@ -17,15 +18,6 @@ ACS_LaserEmitter::ACS_LaserEmitter()
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
 	RootComponent = BaseMesh;
-
-	RightSupport = CreateDefaultSubobject<UStaticMeshComponent>("RightSupport");
-	RightSupport->SetupAttachment(BaseMesh);
-
-	LeftSupport = CreateDefaultSubobject<UStaticMeshComponent>("Left Support");
-	LeftSupport->SetupAttachment(BaseMesh);
-	
-	Cylinder = CreateDefaultSubobject<UStaticMeshComponent>("Cylinder");
-	Cylinder->SetupAttachment(BaseMesh);
 	
 	Arrow = CreateDefaultSubobject<UArrowComponent>("Arrow");
 	Arrow->SetupAttachment(BaseMesh);
@@ -39,7 +31,7 @@ void ACS_LaserEmitter::BeginPlay()
 {
 	Super::BeginPlay();
 			
-	CollisionChannel = ECC_WorldDynamic;
+	CollisionChannel = ECC_GameTraceChannel1;
 	ObjectQueryParams.AddObjectTypesToQuery(CollisionChannel);
 	
 	// Create a Beam mesh for each possible Deflection	
@@ -51,29 +43,14 @@ void ACS_LaserEmitter::BeginPlay()
 
 ACS_LaserBeam* ACS_LaserEmitter::SpawnBeam()
 {
-	LaserDefaultLocation =  Arrow->GetComponentLocation() - FVector(15.0f, 0.0f, 0.0f);
-	LaserDefaultRotation = Arrow->GetComponentRotation();
+	FVector LaserDefaultLocation =  Arrow->GetComponentLocation() - FVector(15.0f, 0.0f, 0.0f);
+	FRotator LaserDefaultRotation = Arrow->GetComponentRotation();
 	ACS_LaserBeam* Beam = GetWorld()->SpawnActor<ACS_LaserBeam>(LaserBeamClass, LaserDefaultLocation, LaserDefaultRotation);
 	if(!IsValid(Beam))
-#if !UE_BUILD_SHIPPING
-	PRINTF(-1, 1.0f, FColor::Black, "Cast Failed %p", Beam)
-#endif
 	
 	Beam->SetMobility(EComponentMobility::Movable);
 	return Beam;
 	
-}
-
-void ACS_LaserEmitter::ShowBeam(int ArrayIndex, FTransform NewTransform)
-{
-	BeamTransform = NewTransform;
-	BeamArray[ArrayIndex]->SetActorTransform(BeamTransform);
-	BeamArray[ArrayIndex]->SetActorHiddenInGame(false);
-}
-
-void ACS_LaserEmitter::HideBeam(int ArrayIndex)
-{
-	BeamArray[ArrayIndex]->SetActorHiddenInGame(true);
 }
 
 // Called every frame
@@ -90,68 +67,144 @@ void ACS_LaserEmitter::GenerateLaser()
 	FVector TraceStart = Arrow->GetComponentLocation();
 	FVector TraceEnd =  Arrow->GetForwardVector() * MaxLaserDistance + TraceStart;
 	FCollisionQueryParams QueryParams;
+	QueryParams.bReturnPhysicalMaterial = true;
 	QueryParams.AddIgnoredActor(this);
 	QueryParams.AddIgnoredActor(Cast<ACS_LaserBeam>(LaserBeamClass));
 	TArray<FHitResult> OutHitArray;
 	float TotalBeamLength = 0;
-
-	bool bLaserDidHit = StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, TotalBeamLength, 0);
+	bool bDoesLaserBounce = false;
+	
+	StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, PreviousHitArray, TotalBeamLength, bDoesLaserBounce, 0);
 	
 	for(int i = 1; i <= MaxDeflections; i++)
 	{		
-		if(bLaserDidHit)
+		if(bDoesLaserBounce)
 		{
-			bLaserDidHit = StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, TotalBeamLength, i);
+			bDoesLaserBounce = false;
+			StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, PreviousHitArray, TotalBeamLength, bDoesLaserBounce, i);
 		}
 		else
 			HideBeam(i);
 	}
+	PreviousHitArray = OutHitArray;
 }
 
-bool ACS_LaserEmitter::StartLaserTrace(FVector &TraceStart, FVector &TraceEnd, FCollisionQueryParams QueryParams, TArray<FHitResult> &OutHitArray, float &TotalBeamLength, int Index)
+void ACS_LaserEmitter::StartLaserTrace(FVector &f_TraceStart, FVector &f_TraceEnd, FCollisionQueryParams f_QueryParams, TArray<FHitResult> &f_OutHitArray, TArray<FHitResult> &f_PreviousHitArray, float &f_TotalBeamLength, bool &f_bDoesLaserBounce, int Index)
 {
 	float BeamLength;
+	FVector BeamTraceStart = f_TraceStart;
+	FVector BeamTraceEnd = f_TraceEnd;
 	int NumOfDeflects = Index;
-	const FVector LaserDirectionVector = UKismetMathLibrary::GetDirectionUnitVector(TraceStart, TraceEnd);
+
+	const FVector LaserDirectionVector = UKismetMathLibrary::GetDirectionUnitVector(f_TraceStart, f_TraceEnd);
 	
 	if(Index > 0)
-		QueryParams.AddIgnoredActor(OutHitArray[Index -1].GetActor());
+		f_QueryParams.AddIgnoredActor(f_OutHitArray[Index -1].GetActor());
 	
 	FHitResult OutHit;	
 
 	/** Initial Line Trace **/
-	bool bBlockingHit = GetWorld()->LineTraceSingleByChannel(OutHit, TraceStart, TraceEnd, CollisionChannel, QueryParams);
+	bool bBlockingHit = GetWorld()->LineTraceSingleByChannel(OutHit, f_TraceStart, f_TraceEnd, CollisionChannel, f_QueryParams);
+
+	 BeamTraceStart = f_TraceStart;	 
 	
 	if(bBlockingHit)
 	{
-		/** Collect Results for Initial Line Trace and update Beam Mesh Transform **/
-		OutHitArray.Add(OutHit);
-		TotalBeamLength += OutHit.Distance;
-		BeamLength = OutHit.Distance / 10.0f;		
-		FVector LaserScale = FVector(BeamLength + 0.5f , 1.0f, 1.0f);
-		FRotator LaserRotation = UKismetMathLibrary::FindLookAtRotation(TraceStart, TraceEnd);
-		FTransform UpdateTransform = FTransform(LaserRotation, TraceStart, LaserScale);
-		ShowBeam(NumOfDeflects, UpdateTransform);
+		BeamTraceEnd = OutHit.Location;		
 
-		TraceStart = OutHit.Location;
-		TraceEnd = FMath::GetReflectionVector(LaserDirectionVector, OutHit.Normal) * (MaxLaserDistance - OutHit.Distance)  + TraceStart;
-		if (OutHit.GetActor()->Implements<UCS_ReflectiveInterface>())
+		if(OutHit.PhysMaterial != nullptr)
 		{
-			return true;
+			if(OutHit.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1) // ReflectiveMaterial
+			{
+				if (OutHit.GetActor()->Implements<UCS_ReflectiveInterface>())
+				{
+					f_TraceStart = OutHit.Location;
+					f_TraceEnd = FMath::GetReflectionVector(LaserDirectionVector, OutHit.Normal) * (MaxLaserDistance - OutHit.Distance)  + f_TraceStart;
+					f_bDoesLaserBounce = true;
+				}
+			}
+			if(OutHit.PhysMaterial->SurfaceType.GetValue() == EPhysicalSurface::SurfaceType2) // PoweredMaterial
+			{
+				if(OutHit.GetActor()->Implements<UCS_PoweredInterface>())
+					ICS_PoweredInterface::Execute_IsPowered(OutHit.GetActor());
+			}
 		}
-		if(OutHit.GetActor()->Implements<UCS_PoweredInterface>())
-		{
-			ICS_PoweredInterface::Execute_IsPowered(OutHit.GetActor());
-		}
-		return false;				
 	}
 	
-	BeamLength = (MaxLaserDistance - TotalBeamLength) / 10;
-	FVector LaserScale = FVector(BeamLength, 1.0f, 1.0f);
-	FRotator LaserRotation = UKismetMathLibrary::FindLookAtRotation(TraceStart, TraceEnd);
-	FTransform UpdateTransform = FTransform( LaserRotation, TraceStart, LaserScale);		
-	ShowBeam(NumOfDeflects, UpdateTransform);
+	/** Collect Results for Initial Line Trace and update Beam Mesh Transform **/
+	f_OutHitArray.Add(OutHit);
+	f_TotalBeamLength += OutHit.Distance;
+	BeamLength = OutHit.Distance / 10.0f;
 	
-	return bBlockingHit; 
+	ShowBeam(NumOfDeflects, BeamLength, f_TotalBeamLength, BeamTraceStart, BeamTraceEnd);
+	
+	CheckForLostActors(f_PreviousHitArray,f_OutHitArray);
+	
 }
 
+
+void ACS_LaserEmitter::ShowBeam(int f_ArrayIndex, float f_BeamLength, float f_TotalBeamLength, FVector f_TraceStart, FVector f_TraceEnd)
+{
+	if (f_BeamLength <= 0)
+		f_BeamLength = (MaxLaserDistance - f_TotalBeamLength) / 10.0f;
+	
+	const FVector LaserScale = FVector(f_BeamLength, 1.0f, 1.0f);
+	const FRotator LaserRotation = UKismetMathLibrary::FindLookAtRotation(f_TraceStart, f_TraceEnd);
+	const FTransform UpdateTransform = FTransform( LaserRotation, f_TraceStart, LaserScale);	
+
+	BeamArray[f_ArrayIndex]->SetActorTransform(UpdateTransform);
+	BeamArray[f_ArrayIndex]->SetActorHiddenInGame(false);
+}
+
+
+void ACS_LaserEmitter::HideBeam(int f_ArrayIndex)
+{
+	BeamArray[f_ArrayIndex]->SetActorHiddenInGame(true);
+}
+
+
+void ACS_LaserEmitter::CheckForLostActors(TArray<FHitResult> f_PreviousHitArray, TArray<FHitResult> f_OutHitArray)
+{
+	TArray<AActor*> TempActorArray;
+
+	// Loop through current hit actors and add unique to array to check against previous hit actors
+	for(FHitResult PreviousHitResult : f_PreviousHitArray)
+	{
+		AActor* TempActor = PreviousHitResult.GetActor();
+		if(IsValid(TempActor))
+			TempActorArray.AddUnique(TempActor);	
+	}
+
+	TArray<AActor*> LostActorArray;
+	for(FHitResult CurrentHitResult : f_OutHitArray)
+	{
+		if(TempActorArray.Num() > 0)
+		{
+			bool bIsMatch = TempActorArray.Contains(CurrentHitResult.GetActor());
+			if(!bIsMatch)
+			{
+				for(AActor* TempActor : TempActorArray)
+				{
+					if(TempActor!= CurrentHitResult.GetActor())
+					{
+						LostActorArray.AddUnique(TempActor);
+					}
+					else if (TempActor == CurrentHitResult.GetActor() && LostActorArray.Contains(CurrentHitResult.GetActor()))
+					{
+						TempActorArray.Remove(TempActor);
+					}
+				}				
+			}
+		}
+	}
+	if(LostActorArray.Num() > 0)
+	{
+		for(AActor* LostActor : LostActorArray)
+		{
+			if(LostActor->Implements<UCS_PoweredInterface>())
+			{
+				ICS_PoweredInterface::Execute_IsNotPowered(LostActor);
+			}
+		}
+	}
+}

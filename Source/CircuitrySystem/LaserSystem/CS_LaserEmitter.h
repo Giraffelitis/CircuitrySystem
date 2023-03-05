@@ -25,23 +25,16 @@ protected:
 	
 	ACS_LaserBeam* SpawnBeam();
 	
-	void ShowBeam(int ArrayIndex, FTransform NewTransform);
+	void ShowBeam(int f_ArrayIndex, float f_BeamLength, float f_TotalBeamLength, FVector f_TraceStart, FVector f_TraceEnd);
 	
-	void HideBeam(int ArrayIndex);
+	void HideBeam(int f_ArrayIndex);
 
-	bool StartLaserTrace(FVector &TraceStart, FVector &TraceEnd, FCollisionQueryParams QueryParams, TArray<FHitResult> &OutHitArray, float &TotalBeamLength, int Index);
+	void StartLaserTrace(FVector &f_TraceStart, FVector &f_TraceEnd, FCollisionQueryParams f_QueryParams, TArray<FHitResult> &f_OutHitArray, TArray<FHitResult> &f_PreviousHitArray, float &f_TotalBeamLength, bool &f_bDoesLaserBounce, int f_Index);
 
+	void CheckForLostActors(TArray<FHitResult> f_PreviousHitArray, TArray<FHitResult> f_OutHitArray);
+	
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* BaseMesh;
-
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* RightSupport;
-
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* LeftSupport;
-
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* Cylinder;
 
 	UPROPERTY(EditAnywhere)
 	UArrowComponent* Arrow;
@@ -54,8 +47,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ACS_LaserBeam> LaserBeamClass;
+
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UCS_PowerComponent> PowerComponentClass;
+	TSubclassOf<UPhysicalMaterial> PoweredPhysMaterial;
+
 
 	UPROPERTY(EditAnywhere)
 	int MaxDeflections;
@@ -64,13 +59,10 @@ protected:
 	float MaxLaserDistance;
 	
 private:
-	FColor LineColor;
 	FCollisionObjectQueryParams ObjectQueryParams;
 	float DistanceTraveled;	
 	FTransform BeamTransform;
-	FVector LaserDefaultLocation;
-	FRotator LaserDefaultRotation;
-	FVector LaserDefaultScale;
+	TArray<FHitResult> PreviousHitArray;
 	
 public:	
 	// Called every frame

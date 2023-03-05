@@ -11,7 +11,7 @@ ACS_LaserBeam::ACS_LaserBeam()
 	this->SetActorEnableCollision(false);
 }
 
-void ACS_LaserBeam::SetLaserBeamTransform(FTransform NewTransform)
+void ACS_LaserBeam::SetLaserBeamTransform(FTransform f_NewTransform)
 {
-	this->SetActorTransform(NewTransform);
+	this->SetActorTransform(f_NewTransform);
 }

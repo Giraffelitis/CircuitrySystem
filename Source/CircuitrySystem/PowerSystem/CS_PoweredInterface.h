@@ -25,5 +25,8 @@ public:
 	
 	UFUNCTION(BlueprintNativeEvent)
 	void IsPowered();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void IsNotPowered();
 	
 };

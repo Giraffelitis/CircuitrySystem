@@ -2,7 +2,6 @@
 
 
 #include "CS_PlayerController.h"
-#include "CS_PlayerCharacter.h"
 #include "CircuitrySystem/EIC/CS_EnhancedInputComponent.h"
 #include "CircuitrySystem/GameBase/CS_GameplayTags.h"
 
@@ -26,23 +25,21 @@ void ACS_PlayerController::SetupInputComponent()
 	const FCS_GameplayTags& GameplayTags = FCS_GameplayTags::Get();
 
 	//Bind Input actions by tag
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Move);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Look);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Action_Pickup, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Pickup);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Jump, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Jump);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Action_Support_Primary, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Primary_Support_Action);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Action_Support_Secondary, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Secondary_Support_Action);
-
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Pressed, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Modifier_Pressed);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Released, ETriggerEvent::Triggered, this, &ACS_PlayerController::Input_Modifier_Released);	
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Move, ETriggerEvent::Triggered, this, &ACS_PlayerController::Move);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Mouse, ETriggerEvent::Triggered, this, &ACS_PlayerController::Look);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Look_Stick, ETriggerEvent::Triggered, this, &ACS_PlayerController::Look);
 }
 
-void ACS_PlayerController::Input_Move(const FInputActionValue& InputActionValue)
+void ACS_PlayerController::OnPossess(APawn* f_Pawn)
+{
+	Super::OnPossess(f_Pawn);
+}
+
+void ACS_PlayerController::Move(const FInputActionValue& f_InputActionValue)
 {
 	if (this != nullptr)
 	{
-		const FVector2D MoveValue = InputActionValue.Get<FVector2D>();
+		const FVector2D MoveValue = f_InputActionValue.Get<FVector2D>();
 		const FRotator MovementRotation(0.0f, this->GetControlRotation().Yaw, 0.0f);
 
 		if (MoveValue.X != 0.0f)
@@ -59,9 +56,9 @@ void ACS_PlayerController::Input_Move(const FInputActionValue& InputActionValue)
 	}
 }
 
-void ACS_PlayerController::Input_Look(const FInputActionValue& InputActionValue)
+void ACS_PlayerController::Look(const FInputActionValue& f_InputActionValue)
 {
-	const FVector2D LookValue = InputActionValue.Get<FVector2D>();
+	const FVector2D LookValue = f_InputActionValue.Get<FVector2D>();
 
 	if (LookValue.X != 0.0f)
 	{
@@ -74,48 +71,17 @@ void ACS_PlayerController::Input_Look(const FInputActionValue& InputActionValue)
 	}
 }
 
-void ACS_PlayerController::Input_Jump(const FInputActionValue& InputActionValue)
-{
-	GetCharacter()->Jump();
-}
-
-void ACS_PlayerController::Input_Pickup(const FInputActionValue& InputActionValue)
-{
-	Cast<ACS_PlayerCharacter>(GetCharacter())->PickupAction();
-}
-
-void ACS_PlayerController::TurnAtRate(float Rate)
+void ACS_PlayerController::TurnAtRate(float _Rate)
 {
 	// calculate delta for this frame from the rate information
-	GetPawn()->AddControllerYawInput(Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
+	GetPawn()->AddControllerYawInput(_Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
 }
 
-void ACS_PlayerController::LookUpAtRate(float Rate)
+void ACS_PlayerController::LookUpAtRate(float _Rate)
 {
 	// calculate delta for this frame from the rate information
-	GetPawn()->AddControllerPitchInput(Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
+	GetPawn()->AddControllerPitchInput(_Rate * TurnRateGamepad * GetWorld()->GetDeltaSeconds());
 }
 
-/** Handles Primary Support Action */
-void ACS_PlayerController::Input_Primary_Support_Action(const FInputActionValue& InputActionValue)
-{
-	Cast<ACS_PlayerCharacter>(GetCharacter())->PrimarySupportAction();
-}
 
-/** Handles Secondary Support Action */
-void ACS_PlayerController::Input_Secondary_Support_Action(const FInputActionValue& InputActionValue)
-{
-	Cast<ACS_PlayerCharacter>(GetCharacter())->SecondarySupportAction();
-}
 
-/** Handles Input Modifier */
-void ACS_PlayerController::Input_Modifier_Pressed(const FInputActionValue& InputActionValue)
-{
-	Cast<ACS_PlayerCharacter>(GetCharacter())->InputModifier = true;
-}
-
-/** Handles Input Modifier */
-void ACS_PlayerController::Input_Modifier_Released(const FInputActionValue& InputActionValue)
-{
-	Cast<ACS_PlayerCharacter>(GetCharacter())->InputModifier = false;
-}

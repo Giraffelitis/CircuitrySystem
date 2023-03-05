@@ -6,15 +6,138 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30e28217-9211-46c8-ae8e-816a65b934fe" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/BP_PowerBlock.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_BuildHelperMesh.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_CircuitBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_PhysicalMaterials.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_PowerBlock.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_BuildMode.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_DestroyBuildPiece.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_Interact.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_PlaceBuildPiece.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_RotateActor+.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_RotateActor-.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_Modifier_Alt_Pressed.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_Modifier_Alt_Released.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_Modifier_Ctrl_Pressed.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_Modifier_Ctrl_Released.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_Modifier_Shift_Pressed.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_Modifier_Shift_Released.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_MouseWheelDown.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Modifier_Actions/IA_MouseWheelUp.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Movement/IA_CrouchStart.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Movement/IA_CrouchStop.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Movement/IA_Jump.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Movement/IA_MouseLook.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Movement/IA_Move.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/Movement/IA_StickLook.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Character/Input/IMC_DefaultGameplay.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Level/NewMap1.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Level/NewWorld.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/BuildMaterials/M_BuildInvalid.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/BuildMaterials/M_BuildValid.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/BuildMaterials/M_BuildVisualMeshBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/MI_concrete_slab_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/MI_metal_A_Inst.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/M_Texture_Atlas.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/M_concrete_paint.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/M_metal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/PowerableMaterial/M_PowerableBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/PowerableMaterial/PM_Powerable.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/ReflectiveMaterials/M_ReflectiveBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Materials/ReflectiveMaterials/PM_ReflectiveMaterial.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/SM_CircuitBase.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/SM_SocketBlock.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/SM_roof_dome_01.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/WP_Dagger_2.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_Texture_Atlas.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_concrete_paint_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_concrete_paint_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_concrete_slab_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_concrete_slab_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_decal_pattern_07_Mask.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_metal_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_metal_Roughness.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_sand_BaseColor.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_sand_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/T_wooden_part_02_Normal.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Platforms/HoloLens/Config/HoloLensEngine.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_BuildBaseComponent.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_BuildHelperMesh.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_BuildBaseComponent.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_DataTypes.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP_LaserReceiver.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_Light.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Platforms/HoloLens/Config/HoloLensEngine.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserBeam.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserBeam.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserEmitter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserEmitter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserReceiver.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserReceiver.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_ReflectiveAngle.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_ReflectiveAngle.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_ReflectiveCube.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_ReflectiveCube.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/BP_FirstPersonCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/BP_FirstPersonCharacter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/BP_PlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/BP_PlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_Jump.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_Modifier_Pressed.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_Modifier_Released.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_MouseLook.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_Move.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_Pickup.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_PrimarySupportAction.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_SecondarySupportAction.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_StickLook.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/CS_InputConfig.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/Input/CS_InputConfig.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/IMC_Gamepad.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/Input/IMC_Gamepad.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/IMC_KBM.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Character/Input/IMC_Weapons.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/Input/IMC_Weapons.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/LowPolyMedievalConstructions/Weapons/Materials/M_Texture_Atlas.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/LowPolyMedievalConstructions/Weapons/Meshes/WP_Dagger_2.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/LowPolyMedievalConstructions/Weapons/Textures/T_Texture_Atlas.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Materials/MI_ChromeSet02.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/MI_ChromeSet02.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Materials/M_Generic.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/M_Generic.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/MyCS_Light.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Materials/building_materials/base_materials/MI_concrete_slab_Inst.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Materials/building_materials/base_materials/MI_metal_A_Inst.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Materials/building_materials/base_materials/M_concrete_paint.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Materials/building_materials/base_materials/M_metal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Meshes/building/SM_roof_dome_01.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/base_textures/concrete_paint/T_concrete_paint_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/base_textures/concrete_paint/T_concrete_paint_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/base_textures/concrete_slab/T_concrete_slab_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/base_textures/concrete_slab/T_concrete_slab_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/base_textures/metal/T_metal_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/base_textures/metal/T_metal_Roughness.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/building_textures/building_normal_maps/T_wooden_part_02_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/decals_textures/T_decal_pattern_07_Mask.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/landscape_textures/sand/T_sand_BaseColor.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Stylized_Egypt/Textures/landscape_textures/sand/T_sand_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/CircuitrySystem.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/CircuitrySystem.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserBeam.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserBeam.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserBeam.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserBeam.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_Light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_Light.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_Light.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_Light.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_BatteryPack.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_BatteryPack.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_Light.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBlock.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_Light.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBlock.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerComponent.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerComponent.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PoweredInterface.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PoweredInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PoweredInterface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_CircuitBoardSection.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_CircuitPartBase.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_WireConnector.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_CircuitBoardSection.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_BuildHelperMesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_CircuitPartBase.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_WireConnector.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,15 +148,20 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2MOv3vDrIgEQhx9iohNukQr86ko" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.39955106&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -168,6 +296,11 @@
       <updated>1677651249355</updated>
       <workItem from="1677651252968" duration="595000" />
       <workItem from="1677652248728" duration="1162000" />
+      <workItem from="1677681201784" duration="67821000" />
+      <workItem from="1677855297570" duration="37213000" />
+      <workItem from="1677960116411" duration="21235000" />
+      <workItem from="1678045906745" duration="2505000" />
+      <workItem from="1678056271335" duration="322000" />
     </task>
     <servers />
   </component>
@@ -176,6 +309,7 @@
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
 </project>
