@@ -3,6 +3,8 @@
 
 #include "CS_ReflectiveCube.h"
 
+#include "CS_TaggingSystem.h"
+
 // Sets default values
 ACS_ReflectiveCube::ACS_ReflectiveCube()
 {
@@ -11,6 +13,8 @@ ACS_ReflectiveCube::ACS_ReflectiveCube()
 
 	BaseMesh->SetSimulatePhysics(true);	
 	BaseMesh->SetMassOverrideInKg(NAME_None, 500.0f, true);
+
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 bool ACS_ReflectiveCube::IsReflective()

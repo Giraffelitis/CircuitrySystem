@@ -39,6 +39,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	ACS_LaserReceiver* LaserReceiver;
 
+
 private:
 	FAttachmentTransformRules* AttachRules;
 

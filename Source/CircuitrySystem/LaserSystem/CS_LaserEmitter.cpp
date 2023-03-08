@@ -4,6 +4,7 @@
 #include "CS_LaserEmitter.h"
 #include "CS_LaserBeam.h"
 #include "CS_ReflectiveInterface.h"
+#include "CS_TaggingSystem.h"
 #include "Macros.h"
 #include "CircuitrySystem/PowerSystem/CS_PoweredInterface.h"
 #include "Components/ArrowComponent.h"
@@ -21,7 +22,7 @@ ACS_LaserEmitter::ACS_LaserEmitter()
 	
 	Arrow = CreateDefaultSubobject<UArrowComponent>("Arrow");
 	Arrow->SetupAttachment(BaseMesh);
-
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 	MaxLaserDistance = 1000.0f;
 	MaxDeflections = 2;
 }
@@ -47,8 +48,10 @@ ACS_LaserBeam* ACS_LaserEmitter::SpawnBeam()
 	FRotator LaserDefaultRotation = Arrow->GetComponentRotation();
 	ACS_LaserBeam* Beam = GetWorld()->SpawnActor<ACS_LaserBeam>(LaserBeamClass, LaserDefaultLocation, LaserDefaultRotation);
 	if(!IsValid(Beam))
+		return nullptr;
 	
-	Beam->SetMobility(EComponentMobility::Movable);
+		Beam->SetMobility(EComponentMobility::Movable);
+	
 	return Beam;
 	
 }
@@ -207,4 +210,14 @@ void ACS_LaserEmitter::CheckForLostActors(TArray<FHitResult> f_PreviousHitArray,
 			}
 		}
 	}
+}
+
+void ACS_LaserEmitter::Destroyed()
+{
+	Super::Destroyed();
+
+	for( int i = 0; i < BeamArray.Num() ; i++ )
+	{		
+		BeamArray[i]->Destroy();
+	}	
 }

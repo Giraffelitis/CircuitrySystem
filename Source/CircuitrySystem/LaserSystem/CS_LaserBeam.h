@@ -6,6 +6,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "CS_LaserBeam.generated.h"
 
+class UCS_TaggingSystem;
 /**
  * 
  */
@@ -20,5 +21,8 @@ class CIRCUITRYSYSTEM_API ACS_LaserBeam : public AStaticMeshActor
 
 	UPROPERTY()
 	UStaticMesh* BaseMesh;
+
+	UPROPERTY()
+	UCS_TaggingSystem* TaggingSystemComp;
 	
 };

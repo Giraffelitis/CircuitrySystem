@@ -42,7 +42,10 @@ struct FCS_GameplayTags
 	FGameplayTag InputTag_Modifier_Ctrl_Pressed;
 	FGameplayTag InputTag_Modifier_Ctrl_Released;
 	FGameplayTag InputTag_Modifier_Shift_Pressed;
-	FGameplayTag InputTag_Modifier_Shift_Released;	
+	FGameplayTag InputTag_Modifier_Shift_Released;
+	
+	FGameplayTag BuildTag_Player_Private;
+	FGameplayTag BuildTag_Player_Public;
 
 protected:
 

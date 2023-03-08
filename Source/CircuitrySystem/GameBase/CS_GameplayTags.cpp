@@ -48,7 +48,9 @@ void FCS_GameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 	AddTag( InputTag_Modifier_Ctrl_Released, "InputTag.Modifier.Ctrl.Released", "Input Modifier Ctrl Pressed");
 	AddTag( InputTag_Modifier_Shift_Pressed, "InputTag.Modifier.Shift.Pressed", "Input Modifier Shift Pressed");
 	AddTag( InputTag_Modifier_Shift_Released, "InputTag.Modifier.Shift.Released", "Input Modifier Shift Pressed");
-}
+
+	AddTag(BuildTag_Player_Private,"BuildTag.Player.Private","Build tag player built private");
+	AddTag(BuildTag_Player_Public,"BuildTag.Player.Public","Build tag player built public");}
 
 void FCS_GameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)
 {

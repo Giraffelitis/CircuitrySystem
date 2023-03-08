@@ -11,6 +11,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FIsReceivingPower);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLostPower);
 
 class ACS_LaserBeam;
+class UCS_TaggingSystem;
 
 UCLASS()
 class CIRCUITRYSYSTEM_API ACS_LaserReceiver : public AActor, public ICS_PoweredInterface
@@ -32,7 +33,10 @@ public:
 	UStaticMeshComponent* BaseMesh;
 	
 	UPROPERTY()
-	bool bIsPowered;	
+	bool bIsPowered;
+
+	UPROPERTY()
+	UCS_TaggingSystem* TaggingSystemComp;
 	
 protected:
 

@@ -3,8 +3,9 @@
 
 #include "CS_PlayerCharacter.h"
 #include "CS_BuildHelperMesh.h"
-#include "CS_BuildBaseComponent.h"
+#include "CS_CircuitComponentBase.h"
 #include "CS_PlayerController.h"
+#include "CS_TaggingSystem.h"
 #include "Macros.h"
 #include "Camera/CameraComponent.h"
 #include "CircuitrySystem/EIC/CS_EnhancedInputComponent.h"
@@ -246,26 +247,23 @@ void ACS_PlayerCharacter::RotateObjectNeg(const FInputActionValue& f_InputAction
 
 void ACS_PlayerCharacter::PickupItem()
 {
+	//Are our hands empty	
+	if(!bItemPickedUp)
+	{
+		
 	APlayerCameraManager* PlayerCamera = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
 	
 	//Object Hit
 	FHitResult OutHit;
-
 	//Trace starting point
 	FVector StartLocation = PlayerCamera->GetCameraLocation();
-
 	//Trace ending point
 	FVector EndLocation = (PlayerCamera->GetActorForwardVector() * InteractDistance) + StartLocation;
-
 	//Trace Collision channels
 	ECollisionChannel CollisionChannel = ECC_WorldDynamic;
-
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 	
-	//Are our hands empty	
-	if(!bItemPickedUp)
-	{
 		//LineTrace to detect object
 		GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, CollisionChannel, QueryParams);
 		UPrimitiveComponent* HitComponent = OutHit.GetComponent();
@@ -321,35 +319,52 @@ void ACS_PlayerCharacter::SpawnBuildComponent()
 
 void ACS_PlayerCharacter::DestroyBuildComponent()
 {
-	APlayerCameraManager* PlayerCamera = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
-	
-	//Object Hit
-	FHitResult OutHit;
-
-	//Trace starting point
-	FVector StartLocation = PlayerCamera->GetCameraLocation();
-
-	//Trace ending point
-	FVector EndLocation = (PlayerCamera->GetActorForwardVector() * InteractDistance) + StartLocation;
-
-	//Trace Collision channels
-	ECollisionChannel CollisionChannel = ECC_WorldDynamic;
-
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(this);
-	
 	//Are our hands empty	
-	if(!bItemPickedUp)
+	if(bInBuildMode)
 	{
+		APlayerCameraManager* PlayerCamera = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+		//Object Hit
+		FHitResult OutHit;
+		//Trace starting point
+		FVector StartLocation = PlayerCamera->GetCameraLocation();
+		//Trace ending point
+		FVector EndLocation = (PlayerCamera->GetActorForwardVector() * InteractDistance) + StartLocation;
+		//Trace Collision channels
+		ECollisionChannel CollisionChannel = ECC_WorldDynamic;
+
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+		
 		//LineTrace to detect object
 		GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, CollisionChannel, QueryParams);
 		AActor* HitActor = OutHit.GetActor();
 
-		ACS_BuildBaseComponent* HitCircuit = Cast<ACS_BuildBaseComponent>(HitActor);
-		if(!IsValid(HitCircuit))
-			return;
+		if(ACS_CircuitComponentBase* HitCircuit = Cast<ACS_CircuitComponentBase>(HitActor))
+		{
+			if(!IsValid(HitCircuit))
+				return;
+			if(HitCircuit->GetHitISMComponentIndex(OutHit) == 0)
+			{
+				HitCircuit->DestroyInstance(OutHit);
+			}
+			else
+			{
+				HitCircuit->DestroyInstance(OutHit);
+			}
+		}
+		else
+		{
+			UActorComponent* ActorComp = HitActor->GetComponentByClass(UCS_TaggingSystem::StaticClass());
+			UCS_TaggingSystem* TagComp = Cast<UCS_TaggingSystem>(ActorComp);
 
-		HitCircuit->DestroyInstance(OutHit.Location);		
+			if(!IsValid(TagComp))
+				return;
+		
+			if(TagComp->BaseTagContainer.HasTag(FGameplayTag::RequestGameplayTag("BuildTag.Player")))
+			{
+				HitActor->Destroy();			
+			}
+		}
 	}
 }
 

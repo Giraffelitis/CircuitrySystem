@@ -23,4 +23,5 @@ class CIRCUITRYSYSTEM_API ICS_ReflectiveInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual bool IsReflective();
+
 };

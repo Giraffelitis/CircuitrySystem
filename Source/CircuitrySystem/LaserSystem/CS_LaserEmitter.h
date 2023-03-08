@@ -9,6 +9,7 @@
 class ACS_LaserBeam;
 class UArrowComponent;
 class UCS_PowerComponent;
+class UCS_TaggingSystem;
 
 UCLASS()
 class ACS_LaserEmitter : public AActor
@@ -19,6 +20,12 @@ public:
 	// Sets default values for this actor's properties
 	ACS_LaserEmitter();
 
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* BaseMesh;
+
+	UPROPERTY()
+	UCS_TaggingSystem* TaggingSystemComp;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,10 +39,9 @@ protected:
 	void StartLaserTrace(FVector &f_TraceStart, FVector &f_TraceEnd, FCollisionQueryParams f_QueryParams, TArray<FHitResult> &f_OutHitArray, TArray<FHitResult> &f_PreviousHitArray, float &f_TotalBeamLength, bool &f_bDoesLaserBounce, int f_Index);
 
 	void CheckForLostActors(TArray<FHitResult> f_PreviousHitArray, TArray<FHitResult> f_OutHitArray);
-	
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* BaseMesh;
 
+	virtual void Destroyed() override;
+	
 	UPROPERTY(EditAnywhere)
 	UArrowComponent* Arrow;
 

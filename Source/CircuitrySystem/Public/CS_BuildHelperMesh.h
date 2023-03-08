@@ -7,7 +7,7 @@
 #include "CS_DataTypes.h"
 #include "CS_BuildHelperMesh.generated.h"
 
-class ACS_BuildBaseComponent;
+class ACS_CircuitComponentBase;
 class UMaterialInstance;
 
 UCLASS()
@@ -31,10 +31,10 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Build")
-	UStaticMeshComponent* BuildMesh;
+	UStaticMeshComponent* CircuitMesh;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Build")
-	TSubclassOf<ACS_BuildBaseComponent> BuildingClass;
+	TSubclassOf<ACS_CircuitComponentBase> CircuitComponentClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Build")
 	TArray<FCircuitComponents> CircuitComponentsArray;
@@ -46,10 +46,13 @@ protected:
 	UMaterialInstance* MaterialInvalid;
 
 	bool bMaterialIsValid;
+	bool bIsTargetingInstance;
 
-	ACS_BuildBaseComponent* GetHitISMActor(const FHitResult& f_HitResult);
+	ACS_CircuitComponentBase* GetHitISMActor(const FHitResult& f_HitResult);
 
+	void SetMeshToBase(const ECircuitComponentType& f_CircuitComponentType);
+	void ReturnToPreviouslySelectedMesh();
+	
 	UPROPERTY()
-	ACS_BuildBaseComponent* TargetedComponent;
-
+	ACS_CircuitComponentBase* TargetedComponent;
 };

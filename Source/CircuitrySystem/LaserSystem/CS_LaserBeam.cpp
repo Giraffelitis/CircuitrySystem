@@ -3,9 +3,13 @@
 
 #include "CS_LaserBeam.h"
 
+#include "CS_TaggingSystem.h"
+
 ACS_LaserBeam::ACS_LaserBeam()
 {
 	BaseMesh = CreateDefaultSubobject<UStaticMesh>("BaseMesh");
+
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 
 	this->SetMobility(EComponentMobility::Movable);
 	this->SetActorEnableCollision(false);

@@ -3,9 +3,12 @@
 
 #include "CS_PowerBase.h"
 
+#include "CS_TaggingSystem.h"
+
 // Sets default values
 ACS_PowerBase::ACS_PowerBase()
 {
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 void ACS_PowerBase::IsPowered_Implementation()

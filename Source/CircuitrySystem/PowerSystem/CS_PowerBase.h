@@ -8,6 +8,8 @@
 #include "CS_PowerBase.generated.h"
 
 class UCS_PowerComponent;
+class UCS_TaggingSystem;
+
 UCLASS()
 class ACS_PowerBase : public AActor, public ICS_PoweredInterface
 {
@@ -28,4 +30,7 @@ protected:
 
 	UPROPERTY()
 	bool bIsPowered;
+
+	UPROPERTY()
+	UCS_TaggingSystem* TaggingSystemComp;
 };

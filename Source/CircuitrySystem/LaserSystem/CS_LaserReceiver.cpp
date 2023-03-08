@@ -2,12 +2,16 @@
 
 #include "CS_LaserReceiver.h"
 
+#include "CS_TaggingSystem.h"
+
 // Sets default values
 ACS_LaserReceiver::ACS_LaserReceiver()
 {
 	SceneComp = CreateDefaultSubobject<USceneComponent>("RootComponent");
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
 	BaseMesh->SetupAttachment(SceneComp);
+
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 void ACS_LaserReceiver::IsPowered_Implementation()
