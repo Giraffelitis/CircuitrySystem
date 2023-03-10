@@ -49,8 +49,17 @@ void FCS_GameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 	AddTag( InputTag_Modifier_Shift_Pressed, "InputTag.Modifier.Shift.Pressed", "Input Modifier Shift Pressed");
 	AddTag( InputTag_Modifier_Shift_Released, "InputTag.Modifier.Shift.Released", "Input Modifier Shift Pressed");
 
-	AddTag(BuildTag_Player_Private,"BuildTag.Player.Private","Build tag player built private");
-	AddTag(BuildTag_Player_Public,"BuildTag.Player.Public","Build tag player built public");}
+	AddTag( BuildTag_Player_Private, "BuildTag.Player.Private","Build tag player built private");
+	AddTag( BuildTag_Player_Public, "BuildTag.Player.Public","Build tag player built public");
+
+	AddTag(	ComponentTag_Circuit_Base, "ComponentTag.Circuit.Base", "Component Tag for Circuit Base");
+	AddTag(	ComponentTag_Circuit_PowerBlock, "ComponentTag.Circuit.PowerBlock", "Component Tag for Circuit Base");
+	AddTag(	ComponentTag_Circuit_LaserEmitter, "ComponentTag.Circuit.LaserEmitter", "Component Tag for Circuit Base");
+	AddTag(	ComponentTag_Circuit_LaserReceiver, "ComponentTag.Circuit.LaserReceiver", "Component Tag for Circuit Base");
+	AddTag(	ComponentTag_Circuit_PowerJumper, "ComponentTag.Circuit.PowerJumper", "Component Tag for Circuit Base");
+	AddTag(	ComponentTag_Circuit_Switch, "ComponentTag.Circuit.Switch", "Component Tag for Circuit Base");
+}
+
 
 void FCS_GameplayTags::AddTag(FGameplayTag& OutTag, const ANSICHAR* TagName, const ANSICHAR* TagComment)
 {

@@ -3,6 +3,7 @@
 
 #include "CS_CircuitComponentBase.h"
 
+#include "CS_ISMComponent.h"
 #include "CS_TaggingSystem.h"
 #include "GameplayTagContainer.h"
 #include "Components/InstancedStaticMeshComponent.h"
@@ -18,10 +19,11 @@ ACS_CircuitComponentBase::ACS_CircuitComponentBase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	CircuitBoardInstancedMesh = CreateDefaultSubobject<UInstancedStaticMeshComponent>("CircuitBoardInstancedMesh");
+	CircuitBoardInstancedMesh = CreateDefaultSubobject<UCS_ISMComponent>("CircuitBoardInstancedMesh");
 	RootComponent = CircuitBoardInstancedMesh;
-
-	SocketBlockInstancedMesh = CreateDefaultSubobject<UInstancedStaticMeshComponent>("SocketBlockInstancedMesh");
+	
+	SocketBlockInstancedMesh = CreateDefaultSubobject<UCS_ISMComponent>("SocketBlockInstancedMesh");
+	
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
@@ -119,12 +121,13 @@ FTransform ACS_CircuitComponentBase::GetHitSocketTransform(const FHitResult& f_H
 	return FTransform();
 }
 
-void ACS_CircuitComponentBase::AddInstanceToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType)
+void ACS_CircuitComponentBase::AddInstanceToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType, FGameplayTagContainer& f_BlockingTags)
 {	
 	switch (f_CircuitCompType)
 	{
 	case ECircuitComponentType::Base :
 		{
+			CircuitBoardInstancedMesh->TaggingSystem->BlockingTags.AppendTags(f_BlockingTags);
 			CircuitBoardInstancedMesh->AddInstance(f_ActorTransform, true);
 			break;
 		}
@@ -138,17 +141,23 @@ void ACS_CircuitComponentBase::AddInstanceToActor(const FTransform& f_ActorTrans
 		{
 			ACS_LaserEmitter* Emitter = GetWorld()->SpawnActor<ACS_LaserEmitter>(LaserEmitter);
 			Emitter->SetActorTransform(f_ActorTransform);
-			Emitter->TaggingSystemComp->BaseTagContainer.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
+			Emitter->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
 			break;
 		}		
 	case ECircuitComponentType::Receiver :
 		{
 			ACS_LaserReceiver* Receiver = GetWorld()->SpawnActor<ACS_LaserReceiver>(LaserReceiver);
 			Receiver->SetActorTransform(f_ActorTransform);
-			Receiver->TaggingSystemComp->BaseTagContainer.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
+			Receiver->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
 			break;
 		}	
-	case ECircuitComponentType::SocketBlock : SocketBlockInstancedMesh->AddInstance(f_ActorTransform, true); break;
+	case ECircuitComponentType::SocketBlock :
+		{
+			SocketBlockInstancedMesh->TaggingSystem->BlockingTags.AppendTags(f_BlockingTags);
+			SocketBlockInstancedMesh->AddInstance(f_ActorTransform, true);
+			break;
+		}
+		
 	case ECircuitComponentType::Switch : CircuitBoardInstancedMesh->AddInstance(f_ActorTransform, true); break;	
 	default : break;
 	}

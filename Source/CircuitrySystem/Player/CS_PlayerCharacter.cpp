@@ -61,9 +61,9 @@ void ACS_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* f_PlayerInp
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Crouch_Pressed, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::StartCrouch);	
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Crouch_Released, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::EndCrouch);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Alt_Pressed, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::ApplyAltModifier);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Alt_Released, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RemoveAltModifier);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Alt_Pressed, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::ApplyAltModifier);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Alt_Released, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RemoveAltModifier);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Alt_Released, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RemoveAltModifier);	
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Shift_Pressed, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::ApplyShiftModifier);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Modifier_Shift_Released, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RemoveShiftModifier);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_MouseWheel_Up, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::InputMouseWheelUp);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_MouseWheel_Down, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::InputMouseWheelDown);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Interaction_RotatePos, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RotateObjectPos);
@@ -223,6 +223,10 @@ void ACS_PlayerCharacter::RotateObjectPos(const FInputActionValue& f_InputAction
 			CarriedObjectRotation.Yaw += RotationDegree;
 		}
 	}
+	else if (bInBuildMode)
+	{
+		BuildHelper->CompGhostRot.Yaw += 0.5f;
+	}
 }
 
 void ACS_PlayerCharacter::RotateObjectNeg(const FInputActionValue& f_InputActionValue)
@@ -242,6 +246,10 @@ void ACS_PlayerCharacter::RotateObjectNeg(const FInputActionValue& f_InputAction
 		{
 			CarriedObjectRotation.Yaw -= RotationDegree;
 		}
+	}
+	else if (bInBuildMode)
+	{
+		BuildHelper->CompGhostRot.Yaw -= 0.5f;
 	}
 }
 
@@ -298,6 +306,7 @@ void ACS_PlayerCharacter::PickupItem()
 void ACS_PlayerCharacter::ToggleBuildMode()
 {
 	SetBuildMode(bInBuildMode = !GetBuildMode());
+	BuildHelper->CompGhostRot.Yaw = GetControlRotation().Yaw;
 }
 
 void ACS_PlayerCharacter::SetBuildMode(bool f_Enabled)
@@ -338,7 +347,9 @@ void ACS_PlayerCharacter::DestroyBuildComponent()
 		//LineTrace to detect object
 		GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, CollisionChannel, QueryParams);
 		AActor* HitActor = OutHit.GetActor();
-
+		if(!IsValid(HitActor))
+			return;
+		
 		if(ACS_CircuitComponentBase* HitCircuit = Cast<ACS_CircuitComponentBase>(HitActor))
 		{
 			if(!IsValid(HitCircuit))
@@ -353,14 +364,13 @@ void ACS_PlayerCharacter::DestroyBuildComponent()
 			}
 		}
 		else
-		{
+		{			
 			UActorComponent* ActorComp = HitActor->GetComponentByClass(UCS_TaggingSystem::StaticClass());
 			UCS_TaggingSystem* TagComp = Cast<UCS_TaggingSystem>(ActorComp);
-
 			if(!IsValid(TagComp))
 				return;
 		
-			if(TagComp->BaseTagContainer.HasTag(FGameplayTag::RequestGameplayTag("BuildTag.Player")))
+			if(TagComp->ActiveGameplayTags.HasTag(FGameplayTag::RequestGameplayTag("BuildTag.Player")))
 			{
 				HitActor->Destroy();			
 			}

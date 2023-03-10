@@ -7,11 +7,11 @@
 #include "CS_DataTypes.h"
 #include "CS_CircuitComponentBase.generated.h"
 
+class UCS_ISMComponent;
 class ACS_PowerCable;
 class ACS_LaserReceiver;
 class ACS_LaserEmitter;
 class UCS_TaggingSystem;
-class UInstancedStaticMeshComponent;
 
 UCLASS()
 class CIRCUITRYSYSTEM_API ACS_CircuitComponentBase : public AActor
@@ -23,9 +23,9 @@ public:
 	ACS_CircuitComponentBase();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
-	UInstancedStaticMeshComponent* CircuitBoardInstancedMesh;
+	UCS_ISMComponent* CircuitBoardInstancedMesh;
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
-	UInstancedStaticMeshComponent* SocketBlockInstancedMesh;
+	UCS_ISMComponent* SocketBlockInstancedMesh;
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
 	TSubclassOf<ACS_LaserEmitter> LaserEmitter;
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
@@ -33,7 +33,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
 	TSubclassOf<ACS_PowerCable> PowerCable;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	UCS_TaggingSystem* TaggingSystemComp;
 	
 	int TotalNumOfParts = 0;
@@ -46,11 +46,10 @@ public:
 
 	bool IsValidSocket(UInstancedStaticMeshComponent* f_HitComponent, const FName& f_Filter, const FName& f_SocketName);
 	
-	FTransform GetHitSocketTransform(const FHitResult& f_HitResult, const FName& f_Filter, float f_ValidHitDistance = 100.0f);
+	FTransform GetHitSocketTransform(const FHitResult& f_HitResult, const FName& f_Filter, float f_ValidHitDistance = 200.0f);
 
-	void AddInstanceToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType);
+	void AddInstanceToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType, FGameplayTagContainer& f_BlockingTags);
 
-	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

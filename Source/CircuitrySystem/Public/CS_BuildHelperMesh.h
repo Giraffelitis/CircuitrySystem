@@ -7,6 +7,8 @@
 #include "CS_DataTypes.h"
 #include "CS_BuildHelperMesh.generated.h"
 
+struct FGameplayTagContainer;
+struct FGameplayTag;
 class ACS_CircuitComponentBase;
 class UMaterialInstance;
 
@@ -25,6 +27,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Build")
 	void SetMeshArrayIndex(int f_Index);
+
+	FRotator CompGhostRot;
 
 protected:
 	// Called when the game starts or when spawned
@@ -50,8 +54,12 @@ protected:
 
 	ACS_CircuitComponentBase* GetHitISMActor(const FHitResult& f_HitResult);
 
-	void SetMeshToBase(const ECircuitComponentType& f_CircuitComponentType);
-	void ReturnToPreviouslySelectedMesh();
+	void SetComponentGhostMaterial(bool f_bValidLocation);
+	bool CheckOverlappedActors();
+	bool CheckOverlappedComponents();
+
+	FGameplayTagContainer CurrentIDTags;
+	FGameplayTagContainer CurrentBlockingTags;
 	
 	UPROPERTY()
 	ACS_CircuitComponentBase* TargetedComponent;

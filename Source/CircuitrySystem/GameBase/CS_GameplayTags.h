@@ -47,6 +47,13 @@ struct FCS_GameplayTags
 	FGameplayTag BuildTag_Player_Private;
 	FGameplayTag BuildTag_Player_Public;
 
+	FGameplayTag ComponentTag_Circuit_Base;
+	FGameplayTag ComponentTag_Circuit_PowerBlock;
+	FGameplayTag ComponentTag_Circuit_LaserEmitter;
+	FGameplayTag ComponentTag_Circuit_LaserReceiver;
+	FGameplayTag ComponentTag_Circuit_PowerJumper;
+	FGameplayTag ComponentTag_Circuit_Switch;
+
 protected:
 
 	//Registers all of the tags with the GameplayTags Manager

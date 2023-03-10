@@ -25,6 +25,7 @@ ACS_LaserEmitter::ACS_LaserEmitter()
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 	MaxLaserDistance = 1000.0f;
 	MaxDeflections = 2;
+	
 }
 
 // Called when the game starts or when spawned

@@ -18,5 +18,8 @@ public:
 	UCS_TaggingSystem();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tags")
-	FGameplayTagContainer BaseTagContainer;
+	FGameplayTagContainer ActiveGameplayTags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Tags")
+	FGameplayTagContainer BlockingTags;
 };
