@@ -2,43 +2,66 @@
 
 
 #include "CS_PowerBlock.h"
+#include "CS_PowerComponent.h"
 #include "Macros.h"
-#include "CircuitrySystem/LaserSystem/CS_LaserReceiver.h"
-#include "Engine/PointLight.h"
+#include "Sockets.h"
+#include "Engine/StaticMeshSocket.h"
 
 ACS_PowerBlock::ACS_PowerBlock()
 {
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
 	RootComponent = BaseMesh;
+
+	PowerComp = CreateDefaultSubobject<UCS_PowerComponent>("PowerComp");
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 void ACS_PowerBlock::BeginPlay()
 {
-	if(IsValid(LaserReceiver))
+	Super::BeginPlay();
+
+	SocketsArray = BaseMesh->GetAllSocketNames();
+}
+
+void ACS_PowerBlock::UpdatedPower()
+{
+	TArray<AActor*> AttachedActors;
+	this->GetAttachedActors(AttachedActors);
+	for(auto AttachedActor : AttachedActors)
 	{
-		LaserReceiver->AttachToActor(this, AttachRules->SnapToTargetIncludingScale, FName(TEXT("Top_Socket")));
-		LaserReceiver->BaseMesh->SetCollisionProfileName(FName(TEXT("Laser")));
-		LaserReceiver->IsReceivingPower.AddDynamic(this, &ACS_PowerBlock::HasPower);
-		LaserReceiver->LostPower.AddDynamic(this, &ACS_PowerBlock::LostPower);
+		
+		if(!IsValid(AttachedActor))
+			return;
+		if(PowerComp->bIsPowered && AttachedActor->Implements<UCS_PoweredInterface>())
+		{
+			Execute_IsPowered(AttachedActor);
+		}
+		else if (!PowerComp->bIsPowered && AttachedActor->Implements<UCS_PoweredInterface>())
+		{
+			Execute_IsNotPowered(AttachedActor);
+		}
 	}
 }
 
-void ACS_PowerBlock::HasPower()
-{
-	for(const auto AffectedActor: ConnectedActorsArray)
+void ACS_PowerBlock::IsPowered_Implementation()
+{;
+	if(!PowerComp->bIsPowered)
 	{
-		PointLight = Cast<APointLight>(AffectedActor);
-	
-		PointLight->SetLightColor(FLinearColor(0.0f, 255.0f, 0.0f,1.0f));
+		PowerComp->bIsPowered = true;
+		UpdatedPower();
 	}
 }
 
-void ACS_PowerBlock::LostPower()
+void ACS_PowerBlock::IsNotPowered_Implementation()
 {
-	for(const auto AffectedActor: ConnectedActorsArray)
+	if(PowerComp->bIsPowered)
 	{
-		PointLight = Cast<APointLight>(AffectedActor);
-	
-		PointLight->SetLightColor(FLinearColor(255.0f, 255.0f, 255.0f, 0.1f));
+		PowerComp->bIsPowered = false;
+		UpdatedPower();
 	}
+}
+
+void ACS_PowerBlock::CheckPoweredState_Implementation()
+{
+	UpdatedPower();
 }

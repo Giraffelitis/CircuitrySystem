@@ -3,7 +3,7 @@
 
 #include "CS_PlayerCharacter.h"
 #include "CS_BuildHelperMesh.h"
-#include "CS_CircuitComponentBase.h"
+#include "CS_BuildCircuitISM.h"
 #include "CS_PlayerController.h"
 #include "CS_TaggingSystem.h"
 #include "Macros.h"
@@ -350,7 +350,7 @@ void ACS_PlayerCharacter::DestroyBuildComponent()
 		if(!IsValid(HitActor))
 			return;
 		
-		if(ACS_CircuitComponentBase* HitCircuit = Cast<ACS_CircuitComponentBase>(HitActor))
+		if(ACS_BuildCircuitISM* HitCircuit = Cast<ACS_BuildCircuitISM>(HitActor))
 		{
 			if(!IsValid(HitCircuit))
 				return;

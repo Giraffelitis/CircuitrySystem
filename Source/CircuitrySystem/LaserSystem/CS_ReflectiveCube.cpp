@@ -2,7 +2,6 @@
 
 
 #include "CS_ReflectiveCube.h"
-
 #include "CS_TaggingSystem.h"
 
 // Sets default values

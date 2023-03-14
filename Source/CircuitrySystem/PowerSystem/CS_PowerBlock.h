@@ -3,45 +3,46 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CS_PowerBase.h"
+#include "CS_PoweredInterface.h"
+#include "CS_TaggingSystem.h"
+#include "GameFramework/Actor.h"
 #include "CS_PowerBlock.generated.h"
 
-class APointLight;
-class ACS_LaserReceiver;
+class UCS_TaggingSystem;
+class UCS_PowerComponent;
 
 /**
  * 
  */
 UCLASS()
-class ACS_PowerBlock : public ACS_PowerBase
+class ACS_PowerBlock : public AActor, public ICS_PoweredInterface
 {
 	GENERATED_BODY()
 
 public:
 	ACS_PowerBlock();
-	
-	virtual void HasPower() override;
-	virtual void LostPower() override;
-	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
+	virtual void BeginPlay() override;
+	
+	void UpdatedPower();
+	virtual void IsPowered_Implementation() override;
+	virtual void IsNotPowered_Implementation() override;
+	virtual void CheckPoweredState_Implementation() override;
+
+	UPROPERTY(EditAnywhere)
+	UCS_PowerComponent* PowerComp;
+	UPROPERTY()
+	UCS_TaggingSystem* TaggingSystemComp;
+	UPROPERTY()
+	TArray<FName> SocketsArray;
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* BaseMesh;
 	
-	UPROPERTY(EditAnywhere)
-	TArray<AActor*> ConnectedActorsArray;
-
-	UPROPERTY()
-	APointLight* PointLight;
-
-	UPROPERTY(EditAnywhere)
-	ACS_LaserReceiver* LaserReceiver;
+protected:
 
 
-private:
-	FAttachmentTransformRules* AttachRules;
+	
+
 
 
 };

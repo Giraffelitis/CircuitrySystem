@@ -17,7 +17,8 @@ public class CircuitrySystem : ModuleRules
 			"UMG", 
 			"GameplayTags", 
 			"EnhancedInput", 
-			"PhysicsCore"
+			"PhysicsCore",
+			"CableComponent"			
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "CableComponent" });

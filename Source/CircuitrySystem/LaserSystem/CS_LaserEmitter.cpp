@@ -3,9 +3,9 @@
 
 #include "CS_LaserEmitter.h"
 #include "CS_LaserBeam.h"
-#include "CS_ReflectiveInterface.h"
 #include "CS_TaggingSystem.h"
 #include "Macros.h"
+#include "CircuitrySystem/PowerSystem/CS_PowerComponent.h"
 #include "CircuitrySystem/PowerSystem/CS_PoweredInterface.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -17,12 +17,14 @@ ACS_LaserEmitter::ACS_LaserEmitter()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SceneComp = CreateDefaultSubobject<USceneComponent>("RootComponent");
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
-	RootComponent = BaseMesh;
+	BaseMesh->SetupAttachment(SceneComp);
 	
 	Arrow = CreateDefaultSubobject<UArrowComponent>("Arrow");
 	Arrow->SetupAttachment(BaseMesh);
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
+	PowerComp = CreateDefaultSubobject<UCS_PowerComponent>("PowerComp");
 	MaxLaserDistance = 1000.0f;
 	MaxDeflections = 2;
 	
@@ -41,6 +43,23 @@ void ACS_LaserEmitter::BeginPlay()
 	{		
 		BeamArray.Add(SpawnBeam());
 	}	
+}
+
+void ACS_LaserEmitter::IsPowered_Implementation()
+{
+	if(!PowerComp->bIsPowered)
+	{
+		PowerComp->bIsPowered = true;
+		
+	}
+}
+
+void ACS_LaserEmitter::IsNotPowered_Implementation()
+{
+	if(PowerComp->bIsPowered)
+	{
+		PowerComp->bIsPowered = false;
+	}
 }
 
 ACS_LaserBeam* ACS_LaserEmitter::SpawnBeam()
@@ -62,7 +81,17 @@ void ACS_LaserEmitter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	GenerateLaser();
+	if(PowerComp->bIsPowered)
+	{
+		GenerateLaser();
+	}
+	else
+	{
+		for(int i = 0; i < BeamArray.Num(); i++)
+		{
+			HideBeam(i);
+		}
+	}
 }
 
 void ACS_LaserEmitter::GenerateLaser()
@@ -120,12 +149,9 @@ void ACS_LaserEmitter::StartLaserTrace(FVector &f_TraceStart, FVector &f_TraceEn
 		{
 			if(OutHit.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1) // ReflectiveMaterial
 			{
-				if (OutHit.GetActor()->Implements<UCS_ReflectiveInterface>())
-				{
 					f_TraceStart = OutHit.Location;
 					f_TraceEnd = FMath::GetReflectionVector(LaserDirectionVector, OutHit.Normal) * (MaxLaserDistance - OutHit.Distance)  + f_TraceStart;
 					f_bDoesLaserBounce = true;
-				}
 			}
 			if(OutHit.PhysMaterial->SurfaceType.GetValue() == EPhysicalSurface::SurfaceType2) // PoweredMaterial
 			{
@@ -165,7 +191,6 @@ void ACS_LaserEmitter::HideBeam(int f_ArrayIndex)
 {
 	BeamArray[f_ArrayIndex]->SetActorHiddenInGame(true);
 }
-
 
 void ACS_LaserEmitter::CheckForLostActors(TArray<FHitResult> f_PreviousHitArray, TArray<FHitResult> f_OutHitArray)
 {

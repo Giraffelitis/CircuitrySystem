@@ -10,9 +10,9 @@ enum class ECircuitComponentType : uint8
 {
 	Base			UMETA(DisplayName = "Base"),
 	Laser			UMETA(DisplayName = "Laser"),
+	PowerBlock		UMETA(DisplayName = "PowerBlock"),
 	PowerCable		UMETA(DisplayName = "PowerCable"),
 	Receiver		UMETA(DisplayName = "Receiver"),
-	SocketBlock		UMETA(DisplayName = "SocketBlock"),
 	Switch			UMETA(DisplayName = "Switch")
 	
 };
@@ -29,9 +29,11 @@ struct FCircuitComponents : public FTableRowBase
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
 	FName FilterCharacter;	
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
-	bool bCanRotateOnSocket;
-	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
 	FGameplayTagContainer MeshIDTags;
 	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
 	FGameplayTagContainer MeshBlockingTags;
+	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
+	bool bCanRotateOnSocket;
+	UPROPERTY(EditDefaultsOnly, Category = "Circuitry")
+	bool bIsActor;
 };

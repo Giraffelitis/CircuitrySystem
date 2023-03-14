@@ -3,15 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CS_PowerBase.h"
+#include "GameFramework/Actor.h"
 #include "CS_PowerGeneratorBase.generated.h"
 
+class UCS_PowerComponent;
 /**
  * 
  */
 UCLASS()
-class ACS_PowerGeneratorBase : public ACS_PowerBase
+class ACS_PowerGeneratorBase : public AActor
 {
 	GENERATED_BODY()
-	
+
+	UPROPERTY(EditAnywhere)
+	UCS_PowerComponent* PowerComp;
 };

@@ -2,7 +2,6 @@
 
 
 #include "CS_ISMComponent.h"
-
 #include "CS_TaggingSystem.h"
 
 UCS_ISMComponent::UCS_ISMComponent()

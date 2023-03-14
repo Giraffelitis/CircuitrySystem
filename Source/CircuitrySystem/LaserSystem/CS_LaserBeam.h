@@ -21,7 +21,6 @@ class CIRCUITRYSYSTEM_API ACS_LaserBeam : public AStaticMeshActor
 
 	UPROPERTY()
 	UStaticMesh* BaseMesh;
-
 	UPROPERTY()
 	UCS_TaggingSystem* TaggingSystemComp;
 	

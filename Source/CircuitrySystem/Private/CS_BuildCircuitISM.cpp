@@ -1,45 +1,41 @@
 // Copyright 2023 by Pace Abbott. All Rights Reserved.
 
 
-#include "CS_CircuitComponentBase.h"
-
+#include "CS_BuildCircuitISM.h"
 #include "CS_ISMComponent.h"
 #include "CS_TaggingSystem.h"
 #include "GameplayTagContainer.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Macros.h"
-#include "CircuitrySystem/LaserSystem/CS_LaserEmitter.h"
-#include "CircuitrySystem/LaserSystem/CS_LaserReceiver.h"
-#include "CircuitrySystem/PowerSystem/CS_PowerCable.h"
-#include "EnvironmentQuery/EnvQueryTypes.h"
 
 // Sets default values
-ACS_CircuitComponentBase::ACS_CircuitComponentBase()
+ACS_BuildCircuitISM::ACS_BuildCircuitISM()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 	CircuitBoardInstancedMesh = CreateDefaultSubobject<UCS_ISMComponent>("CircuitBoardInstancedMesh");
 	RootComponent = CircuitBoardInstancedMesh;
-	
-	SocketBlockInstancedMesh = CreateDefaultSubobject<UCS_ISMComponent>("SocketBlockInstancedMesh");
-	
+	BuildCircuitBase = CreateDefaultSubobject<ACS_BuildCircuitBase>("BuildCircuitBase");
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 // Called when the game starts or when spawned
-void ACS_CircuitComponentBase::BeginPlay()
+void ACS_BuildCircuitISM::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	CircuitBoardInstancedMesh->AddInstance(FTransform());
 
-	InstanceSocketsArray = CircuitBoardInstancedMesh->GetAllSocketNames();
-	InstanceSocketsArray.Append(SocketBlockInstancedMesh->GetAllSocketNames());
-
+	GenerateSocketArray();
 }
 
-void ACS_CircuitComponentBase::DestroyInstance(const FHitResult f_HitResult)
+void ACS_BuildCircuitISM::GenerateSocketArray()
+{
+	BuildCircuitBase->InstanceSocketsArray = CircuitBoardInstancedMesh->GetAllSocketNames();
+}
+
+void ACS_BuildCircuitISM::DestroyInstance(const FHitResult f_HitResult)
 {
 	if(f_HitResult.Item >= 0)
 	{
@@ -51,7 +47,7 @@ void ACS_CircuitComponentBase::DestroyInstance(const FHitResult f_HitResult)
 	}
 }
 
-FTransform ACS_CircuitComponentBase::GetISMSocketTransform(UInstancedStaticMeshComponent* f_ISMComponent, int32 f_ISMIndex, const FName& f_SocketName)
+FTransform ACS_BuildCircuitISM::GetISMSocketTransform(UInstancedStaticMeshComponent* f_ISMComponent, int32 f_ISMIndex, const FName& f_SocketName)
 {	
 	if(f_ISMComponent && f_ISMComponent->IsValidInstance(f_ISMIndex))
 	{
@@ -66,20 +62,23 @@ FTransform ACS_CircuitComponentBase::GetISMSocketTransform(UInstancedStaticMeshC
 	return FTransform();
 }
 
-int ACS_CircuitComponentBase::GetHitISMComponentIndex(const FHitResult f_HitResult)
+int ACS_BuildCircuitISM::GetHitISMComponentIndex(const FHitResult f_HitResult)
 {
 	//this function is currently being used. Leaving here to finish tutorial
 	return f_HitResult.Item;
 }
 
-bool ACS_CircuitComponentBase::IsValidSocket(UInstancedStaticMeshComponent* f_HitComponent, const FName& f_Filter,
+bool ACS_BuildCircuitISM::IsValidSocket(const FHitResult& f_HitResult, const FName& f_Filter,
 	const FName& f_SocketName)
 {
 	bool bSuccess = true;
-	if(!f_HitComponent->DoesSocketExist(f_SocketName))
+	if(UInstancedStaticMeshComponent* HitComponent = Cast<UInstancedStaticMeshComponent>(f_HitResult.GetComponent()))
 	{
-		bSuccess = false;
-		return bSuccess;
+		if(!HitComponent->DoesSocketExist(f_SocketName))
+		{
+			bSuccess = false;
+			return bSuccess;
+		}
 	}
 
 	FString FilterString = f_Filter.ToString();
@@ -93,7 +92,7 @@ bool ACS_CircuitComponentBase::IsValidSocket(UInstancedStaticMeshComponent* f_Hi
 }
 
 
-FTransform ACS_CircuitComponentBase::GetHitSocketTransform(const FHitResult& f_HitResult, const FName& f_Filter, float f_ValidHitDistance)
+FTransform ACS_BuildCircuitISM::GetHitInstanceSocketTransform(const FHitResult& f_HitResult, const FName& f_Filter, float f_ValidHitDistance)
 {
 	if(UInstancedStaticMeshComponent* HitComponent = Cast<UInstancedStaticMeshComponent>(f_HitResult.GetComponent()))
 	{
@@ -103,9 +102,9 @@ FTransform ACS_CircuitComponentBase::GetHitSocketTransform(const FHitResult& f_H
 		if(HitIndex != -1)
 		{
 			float ClosestDistance = f_ValidHitDistance;
-			for (const FName& SocketName : InstanceSocketsArray)
+			for (const FName& SocketName : BuildCircuitBase->InstanceSocketsArray)
 			{
-				if(IsValidSocket(HitComponent, f_Filter, SocketName))
+				if(IsValidSocket(f_HitResult, f_Filter, SocketName))
 				{
 					FTransform SocketTransform = GetISMSocketTransform(HitComponent, HitIndex, SocketName);
 					if(FVector::Distance(SocketTransform.GetLocation(), f_HitResult.ImpactPoint) < ClosestDistance)
@@ -121,7 +120,7 @@ FTransform ACS_CircuitComponentBase::GetHitSocketTransform(const FHitResult& f_H
 	return FTransform();
 }
 
-void ACS_CircuitComponentBase::AddInstanceToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType, FGameplayTagContainer& f_BlockingTags)
+void ACS_BuildCircuitISM::AddInstanceToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType, FGameplayTagContainer& f_BlockingTags)
 {	
 	switch (f_CircuitCompType)
 	{
@@ -131,34 +130,7 @@ void ACS_CircuitComponentBase::AddInstanceToActor(const FTransform& f_ActorTrans
 			CircuitBoardInstancedMesh->AddInstance(f_ActorTransform, true);
 			break;
 		}
-	case ECircuitComponentType::PowerCable :
-		{
-			ACS_PowerCable* Cable = GetWorld()->SpawnActor<ACS_PowerCable>(PowerCable);
-			//Cable->AttachToActor();
-			break;
-		}
-	case ECircuitComponentType::Laser :
-		{
-			ACS_LaserEmitter* Emitter = GetWorld()->SpawnActor<ACS_LaserEmitter>(LaserEmitter);
-			Emitter->SetActorTransform(f_ActorTransform);
-			Emitter->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
-			break;
-		}		
-	case ECircuitComponentType::Receiver :
-		{
-			ACS_LaserReceiver* Receiver = GetWorld()->SpawnActor<ACS_LaserReceiver>(LaserReceiver);
-			Receiver->SetActorTransform(f_ActorTransform);
-			Receiver->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
-			break;
-		}	
-	case ECircuitComponentType::SocketBlock :
-		{
-			SocketBlockInstancedMesh->TaggingSystem->BlockingTags.AppendTags(f_BlockingTags);
-			SocketBlockInstancedMesh->AddInstance(f_ActorTransform, true);
-			break;
-		}
 		
-	case ECircuitComponentType::Switch : CircuitBoardInstancedMesh->AddInstance(f_ActorTransform, true); break;	
 	default : break;
 	}
 }

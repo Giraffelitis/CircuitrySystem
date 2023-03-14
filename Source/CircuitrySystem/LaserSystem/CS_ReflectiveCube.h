@@ -3,14 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CS_ReflectiveInterface.h"
 #include "GameFramework/Actor.h"
 #include "CS_ReflectiveCube.generated.h"
 
 class UCS_TaggingSystem;
 
 UCLASS()
-class CIRCUITRYSYSTEM_API ACS_ReflectiveCube : public AActor, public ICS_ReflectiveInterface
+class CIRCUITRYSYSTEM_API ACS_ReflectiveCube : public AActor
 {
 	GENERATED_BODY()
 	

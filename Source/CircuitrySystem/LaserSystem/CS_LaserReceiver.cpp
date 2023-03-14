@@ -1,8 +1,9 @@
 // Copyright 2023 by Pace Abbott. All Rights Reserved.
 
 #include "CS_LaserReceiver.h"
-
 #include "CS_TaggingSystem.h"
+#include "Macros.h"
+#include "CircuitrySystem/PowerSystem/CS_PowerComponent.h"
 
 // Sets default values
 ACS_LaserReceiver::ACS_LaserReceiver()
@@ -11,22 +12,37 @@ ACS_LaserReceiver::ACS_LaserReceiver()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
 	BaseMesh->SetupAttachment(SceneComp);
 
+	PowerComp = CreateDefaultSubobject<UCS_PowerComponent>("PowerComp");
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 void ACS_LaserReceiver::IsPowered_Implementation()
 {
-	if(!bIsPowered)
-		IsReceivingPower.Broadcast();
+	if(!PowerComp->bIsPowered)
+	{
+		PowerComp->bIsPowered = true;
 
-	bIsPowered = true;
+		AActor* AttachedParent = GetAttachParentActor();
+		if(IsValid(AttachedParent))
+		{
+			if(AttachedParent->Implements<UCS_PoweredInterface>())
+			{
+				Execute_IsPowered(AttachedParent);
+			}
+		}
+	}
 }
 
 void ACS_LaserReceiver::IsNotPowered_Implementation()
 {
-	if(bIsPowered)
-		LostPower.Broadcast();
+	if(PowerComp->bIsPowered)
+	{
+		PowerComp->bIsPowered = false;
 
-	bIsPowered = false;
+		AActor* AttachedParent = GetAttachParentActor();
+		if(AttachedParent->Implements<UCS_PoweredInterface>())
+		{
+			Execute_IsNotPowered(AttachedParent);
+		}
+	}
 }
-
