@@ -24,10 +24,10 @@ class CIRCUITRYSYSTEM_API ICS_PoweredInterface
 public:
 	
 	UFUNCTION(BlueprintNativeEvent)
-	void IsPowered();
+	void IsPowered(AActor* f_Actor);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void IsNotPowered();
+	void IsNotPowered(AActor* f_Actor);
 
 	UFUNCTION(BlueprintNativeEvent)
 	void CheckPoweredState();

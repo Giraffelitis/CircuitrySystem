@@ -4,35 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "CS_AttachableActor.h"
-#include "CS_LaserReceiver.generated.h"
+#include "CS_PlugEnd.generated.h"
 
-
-class UCS_PowerComponent;
 class UCS_TaggingSystem;
-
+class UCS_PowerComponent;
 UCLASS()
-class CIRCUITRYSYSTEM_API ACS_LaserReceiver : public ACS_AttachableActor
+class CIRCUITRYSYSTEM_API ACS_PlugEnd : public ACS_AttachableActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
-	ACS_LaserReceiver();
-
-
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* BaseMesh;
-	
-protected:
+	ACS_PlugEnd();
 
 	virtual void BeginPlay() override;
+	virtual void Destroyed() override;
 	virtual void IsPowered_Implementation(AActor* f_Actor) override;
 	virtual void IsNotPowered_Implementation(AActor* f_Actor) override;
+	virtual void CheckPoweredState_Implementation() override;
 	void UpdateAttachedPowerState();
 
-private:
-	
-	UPROPERTY()
-	USceneComponent* SceneComp;
-
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* BaseMesh;
 };

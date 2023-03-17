@@ -30,6 +30,7 @@ struct FCS_GameplayTags
 	FGameplayTag InputTag_Interaction_RotatePos;
 	FGameplayTag InputTag_Interaction_RotateNeg;
 	FGameplayTag InputTag_Interaction_Pickup;
+	FGameplayTag InputTag_Interaction_Attach;
 	
 	FGameplayTag InputTag_Build_ToggleBuild;
 	FGameplayTag InputTag_Build_SpawnComponent;
@@ -53,6 +54,13 @@ struct FCS_GameplayTags
 	FGameplayTag ComponentTag_Circuit_LaserReceiver;
 	FGameplayTag ComponentTag_Circuit_PowerJumper;
 	FGameplayTag ComponentTag_Circuit_Switch;
+
+	FGameplayTag ItemTag_Pickup_Socketable;
+	FGameplayTag ItemTag_Pickup_PickedUp;
+	FGameplayTag ItemTag_Power_Receiver;
+	FGameplayTag ItemTag_Power_Giver;
+	FGameplayTag ItemTag_Attach_Point;
+	FGameplayTag ItemTag_Attach_Used;
 
 protected:
 

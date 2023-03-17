@@ -34,10 +34,10 @@ ACS_PlayerCharacter::ACS_PlayerCharacter()
 	AdjustedDampening = 1000.0f;
 
 	// Maximum distance away and object can be Interacted with
-	InteractDistance = 300.0f;
+	InteractDistance = 150.0f;
 
 	// Distance item is held in front of character
-	CarryOffset = 300.0f;
+	CarryOffset = 150.0f;
 
 	//Maximum distance away you can build
 	MaxBuildDistance = 700.0f;
@@ -68,10 +68,11 @@ void ACS_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* f_PlayerInp
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_MouseWheel_Down, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::InputMouseWheelDown);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Interaction_RotatePos, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RotateObjectPos);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Interaction_RotateNeg, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::RotateObjectNeg);
-	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Interaction_Pickup, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::PickupItem);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Interaction_Pickup, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::CheckPickupItem);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Build_ToggleBuild, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::ToggleBuildMode);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Build_SpawnComponent, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::SpawnBuildComponent);
 	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Build_DestroyComponent, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::DestroyBuildComponent);
+	CSEnhancedInputComponent->BindActionByTag(InputConfig, GameplayTags.InputTag_Interaction_Attach, ETriggerEvent::Triggered, this, &ACS_PlayerCharacter::AttachComponent);
 
 }
 
@@ -253,7 +254,12 @@ void ACS_PlayerCharacter::RotateObjectNeg(const FInputActionValue& f_InputAction
 	}
 }
 
-void ACS_PlayerCharacter::PickupItem()
+void ACS_PlayerCharacter::AttachComponent(const FInputActionValue& f_InputActionValue)
+{
+	bAttachItem = true;
+}
+
+void ACS_PlayerCharacter::CheckPickupItem()
 {
 	//Are our hands empty	
 	if(!bItemPickedUp)
@@ -277,28 +283,49 @@ void ACS_PlayerCharacter::PickupItem()
 		UPrimitiveComponent* HitComponent = OutHit.GetComponent();
 
 		if(IsValid(HitComponent))
-		{			
+		{
+			PickedUpItemTags = Cast<UCS_TaggingSystem>(OutHit.GetActor()->GetComponentByClass(UCS_TaggingSystem::StaticClass()));
+
+			if(IsValid(PickedUpItemTags) && PickedUpItemTags->ActiveGameplayTags.HasTag(FGameplayTag::RequestGameplayTag("ItemTag.Pickup.Socketable")))
+			{
+				PickedUpItemTags->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("ItemTag.Pickup.PickedUp"));
+				HitComponent->SetSimulatePhysics(true);
+			}
+			
 			//Check if object is Simulating Physics
 			if(HitComponent->IsSimulatingPhysics())
 			{
-				//Grab Object change its collision and dampening
-				PhysicsHandle->GrabComponentAtLocationWithRotation(HitComponent, FName() , HitComponent->GetComponentLocation() , FRotator(HitComponent->GetRelativeRotation()));
-				DefaultDampening = PhysicsHandle->GetGrabbedComponent()->GetLinearDamping();
-				PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
-				PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(AdjustedDampening);
-				CarriedObjectRotation = HitComponent->GetRelativeRotation();
-				bItemPickedUp = true;
+				PickupItem(HitComponent);
+				HitResultPickedUp = OutHit;
 			}			
 		}
 	}
 	else
 	{
-		//Restore objects collision and dampening and drop it.
-		PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(DefaultDampening);
-		PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
-		PhysicsHandle->ReleaseComponent();
-		bItemPickedUp = false;
+		DropItem();
+		FHitResult Empty;
+		HitResultPickedUp = Empty;
 	}
+}
+
+void ACS_PlayerCharacter::PickupItem(UPrimitiveComponent* f_HitComponent)
+{
+	//Grab Object change its collision and dampening
+	PhysicsHandle->GrabComponentAtLocationWithRotation(f_HitComponent, FName() , f_HitComponent->GetComponentLocation() , FRotator(f_HitComponent->GetRelativeRotation()));
+	DefaultDampening = PhysicsHandle->GetGrabbedComponent()->GetLinearDamping();
+	PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+	PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(AdjustedDampening);
+	CarriedObjectRotation = f_HitComponent->GetRelativeRotation();
+	bItemPickedUp = true;
+}
+void ACS_PlayerCharacter::DropItem()
+{
+	//Restore objects collision and dampening and drop it.
+	PickedUpItemTags->ActiveGameplayTags.RemoveTag(FGameplayTag::RequestGameplayTag("ItemTag.Pickup.PickedUp"));
+	PhysicsHandle->GetGrabbedComponent()->SetAngularDamping(DefaultDampening);
+	PhysicsHandle->GetGrabbedComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block);
+	PhysicsHandle->ReleaseComponent();
+	bItemPickedUp = false;
 }
 #pragma endregion
 
@@ -337,7 +364,7 @@ void ACS_PlayerCharacter::DestroyBuildComponent()
 		//Trace starting point
 		FVector StartLocation = PlayerCamera->GetCameraLocation();
 		//Trace ending point
-		FVector EndLocation = (PlayerCamera->GetActorForwardVector() * InteractDistance) + StartLocation;
+		FVector EndLocation = (PlayerCamera->GetActorForwardVector() * (InteractDistance * 2 )) + StartLocation;
 		//Trace Collision channels
 		ECollisionChannel CollisionChannel = ECC_WorldDynamic;
 

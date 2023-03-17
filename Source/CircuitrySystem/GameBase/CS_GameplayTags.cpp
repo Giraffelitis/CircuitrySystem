@@ -35,6 +35,7 @@ void FCS_GameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 	AddTag(InputTag_Interaction_RotatePos, "InputTag.Interaction.Rotate.Positive", "Increase held object rotation");
 	AddTag( InputTag_Interaction_RotateNeg, "InputTag.Interaction.Rotate.Negative", "Decrease held object rotation");
 	AddTag( InputTag_Interaction_Pickup, "InputTag.Interaction.Pickup", "Pickup Object");
+	AddTag( InputTag_Interaction_Attach, "InputTag.Interaction.Attach", "Attach Object to socket");
 
 	AddTag( InputTag_Build_ToggleBuild, "InputTag.Build.Toggle", "Toggle Build Mode");
 	AddTag( InputTag_Build_SpawnComponent, "InputTag.Build.Component.Spawn", "Spawn selected component");
@@ -58,6 +59,13 @@ void FCS_GameplayTags::AddAllTags(UGameplayTagsManager& Manager)
 	AddTag(	ComponentTag_Circuit_LaserReceiver, "ComponentTag.Circuit.LaserReceiver", "Component Tag for Circuit Base");
 	AddTag(	ComponentTag_Circuit_PowerJumper, "ComponentTag.Circuit.PowerJumper", "Component Tag for Circuit Base");
 	AddTag(	ComponentTag_Circuit_Switch, "ComponentTag.Circuit.Switch", "Component Tag for Circuit Base");
+
+	AddTag(ItemTag_Pickup_Socketable, "ItemTag.Pickup.Socketable", "Item can be attached to socket after being picked up");
+	AddTag(ItemTag_Pickup_PickedUp, "ItemTag.Pickup.PickedUp", "Item is picked up");
+	AddTag(ItemTag_Power_Receiver,"ItemTag.Power.Receiver","This item receives power");
+	AddTag(ItemTag_Power_Giver,"ItemTag.Power.Giver","This item gives Power");
+	AddTag(ItemTag_Attach_Point,"ItemTag.Attach.Point","Point of Attachment");
+	AddTag(ItemTag_Attach_Used,"ItemTag.Attach.Used","Point of Attachment is used");
 }
 
 

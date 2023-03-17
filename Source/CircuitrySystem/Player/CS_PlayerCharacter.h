@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CS_PlayerCharacter.generated.h"
 
+class UCS_TaggingSystem;
 class ACS_BuildHelperMesh;
 class UPhysicsHandleComponent;
 class UCameraComponent;
@@ -59,19 +60,17 @@ public:
 	void RotateObjectPos(const FInputActionValue& f_InputActionValue);
 	
 	void RotateObjectNeg(const FInputActionValue& f_InputActionValue);
+	void AttachComponent(const FInputActionValue& f_InputActionValue);
 
 	UFUNCTION()
-	void PickupItem();
+	void CheckPickupItem();
+	void PickupItem(UPrimitiveComponent* f_HitComponent);
+	void DropItem();
 
-	UPROPERTY()
-	FRotator CarriedObjectRotation;
-	
 	UPROPERTY(EditAnywhere)
 	float CarryOffset;
-	
-	UPROPERTY()
-	bool AltModifier;
-	
+	FRotator CarriedObjectRotation;	
+	bool AltModifier;	
 	bool ShiftModifier;
 
 	/** The input config that maps Input Actions to Input Tags*/
@@ -82,30 +81,28 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float InteractDistance;
-
 	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float DefaultDampening;
-
 	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float RotationDegree;
-
 	UPROPERTY(EditAnywhere, Category = "Item Pickup")
 	float ObjectHeldDistance;
 	
 private:
 	
 	bool bItemPickedUp;
-
+	bool bAttachItem;
 	float AdjustedDampening;
 
 	UPROPERTY()
 	UCameraComponent* Camera;
-
 	UPROPERTY(EditAnywhere)
 	UPhysicsHandleComponent* PhysicsHandle;
-
 	UPROPERTY(EditAnywhere)
 	UArrowComponent* GrabLocation;
+	UPROPERTY()
+	UCS_TaggingSystem* TaggingSystem;
+	UCS_TaggingSystem* PickedUpItemTags;
 
 	/**************************************/
 	/* Build Mode for all Characters */
@@ -133,16 +130,15 @@ private:
 protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Build")
-	TSubclassOf<ACS_BuildHelperMesh> BuildClass;
-	
+	TSubclassOf<ACS_BuildHelperMesh> BuildClass;	
 	UPROPERTY(EditAnywhere, Category = "Build")
 	ACS_BuildHelperMesh* BuildHelper;
-
 	UPROPERTY(BlueprintReadOnly, Category = "Build")
-	float MaxBuildDistance;
-	
+	float MaxBuildDistance;	
 	UPROPERTY(BlueprintReadOnly, Category = "Build")
 	bool bInBuildMode;
+	UPROPERTY()
+	FHitResult HitResultPickedUp;
 };
 
 

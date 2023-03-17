@@ -16,6 +16,7 @@ class ACS_LaserEmitter;
 class ACS_LaserReceiver;
 class ACS_PowerCable;
 class UMaterialInstance;
+class UCS_AttachPoint;
 
 UCLASS()
 class CIRCUITRYSYSTEM_API ACS_BuildHelperMesh : public AActor
@@ -32,11 +33,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Build")
 	void SetMeshArrayIndex(int f_Index);
-	void GenerateSocketArray();
 	void DestroyActor(FHitResult f_HitResult);
-	bool IsValidSocket(const FHitResult& f_HitResult, const FName& f_Filter, const FName& f_SocketName);
-	FTransform GetHitActorSocketTransform(const FHitResult& f_HitResult, const FName& f_Filter,
-	                                      float f_ValidHitDistance = 200.0f);
+	bool IsValidAttachPoint(UCS_AttachPoint* f_AttachPoint);
+	FTransform GetHitAttachPointTransform(const FHitResult& f_HitResult, float f_ValidHitDistance = 200.0f);
 	void AddActorToActor(const FTransform& f_ActorTransform, ECircuitComponentType f_CircuitCompType,
 	                     FGameplayTagContainer& f_BlockingTags);
 
@@ -84,10 +83,6 @@ protected:
 	FGameplayTagContainer CurrentIDTags;
 	FGameplayTagContainer CurrentBlockingTags;
 
-	UPROPERTY()
-	UStaticMeshComponent* CurrentHitMesh;
-	UPROPERTY()
-	FName CurrentHitSocket;
 	UPROPERTY()
 	AActor* CurrentHitActor;
 	UPROPERTY()

@@ -3,46 +3,32 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CS_PoweredInterface.h"
-#include "CS_TaggingSystem.h"
-#include "GameFramework/Actor.h"
+#include "CS_PowerableBase.h"
 #include "CS_PowerBlock.generated.h"
 
-class UCS_TaggingSystem;
-class UCS_PowerComponent;
+class UCS_AttachPoint;
 
 /**
  * 
  */
 UCLASS()
-class ACS_PowerBlock : public AActor, public ICS_PoweredInterface
+class ACS_PowerBlock : public ACS_PowerableBase
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	UCS_AttachPoint* AttachPoint_1;
+	UPROPERTY(EditAnywhere)
+	UCS_AttachPoint* AttachPoint_2;
+	UPROPERTY(EditAnywhere)
+	UCS_AttachPoint* AttachPoint_3;
+	UPROPERTY(EditAnywhere)
+	UCS_AttachPoint* AttachPoint_4;
 
 public:
 	ACS_PowerBlock();
 
 	virtual void BeginPlay() override;
-	
-	void UpdatedPower();
-	virtual void IsPowered_Implementation() override;
-	virtual void IsNotPowered_Implementation() override;
-	virtual void CheckPoweredState_Implementation() override;
-
-	UPROPERTY(EditAnywhere)
-	UCS_PowerComponent* PowerComp;
-	UPROPERTY()
-	UCS_TaggingSystem* TaggingSystemComp;
-	UPROPERTY()
-	TArray<FName> SocketsArray;
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* BaseMesh;
-	
-protected:
-
 
 	
-
-
-
 };

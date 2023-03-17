@@ -25,7 +25,8 @@ ACS_LaserEmitter::ACS_LaserEmitter()
 	Arrow->SetupAttachment(BaseMesh);
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 	PowerComp = CreateDefaultSubobject<UCS_PowerComponent>("PowerComp");
-	MaxLaserDistance = 1000.0f;
+
+	bIsTurnedOn = true;
 	MaxDeflections = 2;
 	
 }
@@ -34,7 +35,9 @@ ACS_LaserEmitter::ACS_LaserEmitter()
 void ACS_LaserEmitter::BeginPlay()
 {
 	Super::BeginPlay();
-			
+	
+	TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("ItemTag.Power.Receiver"));
+	
 	CollisionChannel = ECC_GameTraceChannel1;
 	ObjectQueryParams.AddObjectTypesToQuery(CollisionChannel);
 	
@@ -42,21 +45,37 @@ void ACS_LaserEmitter::BeginPlay()
 	for( int i = 0; i <= MaxDeflections ; i++ )
 	{		
 		BeamArray.Add(SpawnBeam());
-	}	
+	}
+	
+	StartLaserTimer();
 }
 
-void ACS_LaserEmitter::IsPowered_Implementation()
+//void ACS_LaserEmitter::Destroyed()
+//{
+//	Super::BeginDestroy();
+//}
+
+void ACS_LaserEmitter::IsPowered_Implementation(AActor* f_Actor)
 {
-	if(!PowerComp->bIsPowered)
+	PowerComp->ReceivingPowerFromArray.AddUnique(f_Actor);
+	UpdatePowerState();	
+}
+
+void ACS_LaserEmitter::IsNotPowered_Implementation(AActor* f_Actor)
+{
+	PowerComp->ReceivingPowerFromArray.Remove(f_Actor);
+	UpdatePowerState();	
+}
+
+void ACS_LaserEmitter::UpdatePowerState()
+{
+	if(PowerComp->ReceivingPowerFromArray.Num() > 0)
 	{
 		PowerComp->bIsPowered = true;
-		
+		bIsTurnedOn = true;
+		MaxLaserDistance = 1000.0f;
 	}
-}
-
-void ACS_LaserEmitter::IsNotPowered_Implementation()
-{
-	if(PowerComp->bIsPowered)
+	else
 	{
 		PowerComp->bIsPowered = false;
 	}
@@ -72,16 +91,18 @@ ACS_LaserBeam* ACS_LaserEmitter::SpawnBeam()
 	
 		Beam->SetMobility(EComponentMobility::Movable);
 	
-	return Beam;
-	
+	return Beam;	
 }
 
 // Called every frame
-void ACS_LaserEmitter::Tick(float DeltaTime)
+void ACS_LaserEmitter::StartLaserTimer()
 {
-	Super::Tick(DeltaTime);
+	GetWorld()->GetTimerManager().SetTimer(LaserTimerHandle, this, &ACS_LaserEmitter::TriggerLaser, MaxLaserTime, true);
+}
 
-	if(PowerComp->bIsPowered)
+void ACS_LaserEmitter::TriggerLaser()
+{
+	if(bIsTurnedOn)
 	{
 		GenerateLaser();
 	}
@@ -90,7 +111,10 @@ void ACS_LaserEmitter::Tick(float DeltaTime)
 		for(int i = 0; i < BeamArray.Num(); i++)
 		{
 			HideBeam(i);
+			
 		}
+		TArray<FHitResult> EmptyArray;
+		CheckForLostActors(PreviousHitArray, EmptyArray);
 	}
 }
 
@@ -99,6 +123,10 @@ void ACS_LaserEmitter::GenerateLaser()
 	/** Set Variables for Initial Line Trace **/
 	FVector TraceStart = Arrow->GetComponentLocation();
 	FVector TraceEnd =  Arrow->GetForwardVector() * MaxLaserDistance + TraceStart;
+	if(!PowerComp->bIsPowered)
+	{
+		MaxLaserDistance = 0.0f;
+	}
 	FCollisionQueryParams QueryParams;
 	QueryParams.bReturnPhysicalMaterial = true;
 	QueryParams.AddIgnoredActor(this);
@@ -106,8 +134,9 @@ void ACS_LaserEmitter::GenerateLaser()
 	TArray<FHitResult> OutHitArray;
 	float TotalBeamLength = 0;
 	bool bDoesLaserBounce = false;
-	
-	StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, PreviousHitArray, TotalBeamLength, bDoesLaserBounce, 0);
+
+	//First trace is 0 each bounce afterwards starts at 1 and iterates higher
+	StartLaserTrace(TraceStart, TraceEnd, QueryParams, OutHitArray, PreviousHitArray, TotalBeamLength, bDoesLaserBounce, 0); 
 	
 	for(int i = 1; i <= MaxDeflections; i++)
 	{		
@@ -120,6 +149,9 @@ void ACS_LaserEmitter::GenerateLaser()
 			HideBeam(i);
 	}
 	PreviousHitArray = OutHitArray;
+	
+	if(!PowerComp->bIsPowered)
+		bIsTurnedOn = false;
 }
 
 void ACS_LaserEmitter::StartLaserTrace(FVector &f_TraceStart, FVector &f_TraceEnd, FCollisionQueryParams f_QueryParams, TArray<FHitResult> &f_OutHitArray, TArray<FHitResult> &f_PreviousHitArray, float &f_TotalBeamLength, bool &f_bDoesLaserBounce, int Index)
@@ -156,7 +188,7 @@ void ACS_LaserEmitter::StartLaserTrace(FVector &f_TraceStart, FVector &f_TraceEn
 			if(OutHit.PhysMaterial->SurfaceType.GetValue() == EPhysicalSurface::SurfaceType2) // PoweredMaterial
 			{
 				if(OutHit.GetActor()->Implements<UCS_PoweredInterface>())
-					ICS_PoweredInterface::Execute_IsPowered(OutHit.GetActor());
+					Execute_IsPowered(OutHit.GetActor(), this);
 			}
 		}
 	}
@@ -232,7 +264,7 @@ void ACS_LaserEmitter::CheckForLostActors(TArray<FHitResult> f_PreviousHitArray,
 		{
 			if(LostActor->Implements<UCS_PoweredInterface>())
 			{
-				ICS_PoweredInterface::Execute_IsNotPowered(LostActor);
+				Execute_IsNotPowered(LostActor, this);
 			}
 		}
 	}

@@ -2,6 +2,8 @@
 
 
 #include "CS_BuildHelperMesh.h"
+
+#include "CS_AttachPoint.h"
 #include "CS_BuildCircuitISM.h"
 #include "CS_ISMComponent.h"
 #include "CS_TaggingSystem.h"
@@ -60,8 +62,6 @@ void ACS_BuildHelperMesh::SetBuildPosition(const FHitResult& f_HitResult)
 		if(!CheckOverlappedActors())
 			SetComponentGhostMaterial(false);
 		
-		CurrentHitSocket = FName(NAME_None);
-		CurrentHitMesh = nullptr;
 		CurrentHitActor = nullptr;
 		
 		if(TargetedComponent)
@@ -93,7 +93,7 @@ void ACS_BuildHelperMesh::SetBuildPosition(const FHitResult& f_HitResult)
 		}
 		else
 		{
-			FTransform SocketTransform = GetHitActorSocketTransform(f_HitResult, CircuitComponentsArray[CircuitMeshIndex].FilterCharacter);
+			FTransform SocketTransform = GetHitAttachPointTransform(f_HitResult);
 			if(!SocketTransform.Equals(FTransform()))
 			{
 				//Checks if selected component is able to rotate on a socket
@@ -220,7 +220,6 @@ void ACS_BuildHelperMesh::SpawnBuildingComponent()
 				if(CircuitComponentsArray[CircuitMeshIndex].bIsActor)
 				{					
 					AddActorToActor(GetActorTransform(),CircuitComponentsArray[CircuitMeshIndex].CircuitComponentType, CurrentBlockingTags);
-					
 				}
 			}
 		}
@@ -249,70 +248,46 @@ void ACS_BuildHelperMesh::SetMeshArrayIndex(int f_Index)
 		CurrentBlockingTags = CircuitComponentsArray[CircuitMeshIndex].MeshBlockingTags;
 }
 
-void ACS_BuildHelperMesh::GenerateSocketArray()
-{
-	ACS_PowerBlock* TempPower = GetWorld()->SpawnActor<ACS_PowerBlock>(PowerBlock);
-	BuildCircuitBase->InstanceSocketsArray.Append(TempPower->SocketsArray);
-	TempPower->Destroy();	
-}
-
 void ACS_BuildHelperMesh::DestroyActor(const FHitResult f_HitResult)
 {
 	if(f_HitResult.GetActor())
 		DestroyActor(f_HitResult);
 }
 
-FTransform ACS_BuildHelperMesh::GetHitActorSocketTransform(const FHitResult& f_HitResult, const FName& f_Filter, float f_ValidHitDistance)
+FTransform ACS_BuildHelperMesh::GetHitAttachPointTransform(const FHitResult& f_HitResult, float f_ValidHitDistance)
 {
 	if(AActor* HitActor = Cast<AActor>(f_HitResult.GetActor()))
 	{
 		CurrentHitActor = HitActor;
-		FTransform ClosestSocket = FTransform();	
+		FTransform ClosestAttachTransform = FTransform();	
 		float ClosestDistance = f_ValidHitDistance;
-		TArray<UStaticMeshComponent*> Meshes;
-		HitActor->GetComponents<UStaticMeshComponent>(Meshes);
-		for(UStaticMeshComponent* Mesh : Meshes)
-		{
-			TArray<FName>SocketNames = Mesh->GetAllSocketNames();
-			for (FName SocketName : SocketNames)
+		TArray<UCS_AttachPoint*> AttachPoints;
+		HitActor->GetComponents<UCS_AttachPoint>(AttachPoints);
+		for(UCS_AttachPoint* AttachPoint : AttachPoints)
+		{			
+			if(IsValidAttachPoint(AttachPoint))
 			{
-				if(IsValidSocket(f_HitResult, f_Filter, SocketName))
+				FTransform AttachPointTransform = AttachPoint->GetComponentTransform();
+				if(FVector::Distance(AttachPointTransform.GetLocation(), f_HitResult.ImpactPoint) < ClosestDistance)
 				{
-					FTransform SocketTransform = Mesh->GetSocketTransform(SocketName, RTS_World);
-					if(FVector::Distance(SocketTransform.GetLocation(), f_HitResult.ImpactPoint) < ClosestDistance)
-					{
-						ClosestDistance = FVector::Distance(SocketTransform.GetLocation(), f_HitResult.ImpactPoint);
-						ClosestSocket = SocketTransform;
-						CurrentHitMesh = Mesh;
-						CurrentHitSocket = SocketName;
-					}
+					ClosestDistance = FVector::Distance(AttachPointTransform.GetLocation(), f_HitResult.ImpactPoint);
+					ClosestAttachTransform = AttachPointTransform;
 				}
-			}
+			}			
 		}
-		return ClosestSocket;
+		return ClosestAttachTransform;
 	}
 	return FTransform();
 }
 
-bool ACS_BuildHelperMesh::IsValidSocket(const FHitResult& f_HitResult, const FName& f_Filter, const FName& f_SocketName)
+bool ACS_BuildHelperMesh::IsValidAttachPoint(UCS_AttachPoint* f_AttachPoint)
 {
 	bool bSuccess = true;
-	if(UInstancedStaticMeshComponent* HitComponent = Cast<UInstancedStaticMeshComponent>(f_HitResult.GetComponent()))
-	{
-		if(!HitComponent->DoesSocketExist(f_SocketName))
-		{
-			bSuccess = false;
-			return bSuccess;
-		}
-	}
+	if(f_AttachPoint->TagComp->ActiveGameplayTags.HasTag(FGameplayTag::RequestGameplayTag("ItemTag.Attach.Used")))
+		return false;
 
-	FString FilterString = f_Filter.ToString();
-	FString SocketNameString = f_SocketName.ToString();
-
-	if(!SocketNameString.Contains(FilterString, ESearchCase::CaseSensitive))
-	{
-		bSuccess = false;
-	}
+	// TODO:: Find way to filter via tags
+	
 	return bSuccess;
 }
 
@@ -323,29 +298,16 @@ void ACS_BuildHelperMesh::AddActorToActor(const FTransform& f_ActorTransform, EC
 	case ECircuitComponentType::PowerCable :
 		{
 			ACS_PowerCable* m_PowerCable = GetWorld()->SpawnActor<ACS_PowerCable>(PowerCable);
-			if(IsValid(CurrentHitMesh))
-			{
-				CurrentHitMesh->GetSocketByName(CurrentHitSocket)->AttachActor(m_PowerCable, CurrentHitMesh);
-			}
-			else
-			{
-				m_PowerCable->SetActorTransform(f_ActorTransform);
-			}
+			m_PowerCable->SetActorTransform(f_ActorTransform);
+			m_PowerCable->SpawnPlugB();			
 			CheckPoweredActors();
-		//	m_PowerCable->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
+			m_PowerCable->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
 			break;
 		}
 	case ECircuitComponentType::Laser :
 		{
 			ACS_LaserEmitter* m_Emitter = GetWorld()->SpawnActor<ACS_LaserEmitter>(LaserEmitter);
-			if(IsValid(CurrentHitMesh))
-			{
-				CurrentHitMesh->GetSocketByName(CurrentHitSocket)->AttachActor(m_Emitter, CurrentHitMesh);
-			}
-			else
-			{
-				m_Emitter->SetActorTransform(f_ActorTransform);
-			}
+			m_Emitter->SetActorTransform(f_ActorTransform);
 			CheckPoweredActors();
 			m_Emitter->BaseMesh->SetMobility(EComponentMobility::Static);
 			m_Emitter->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
@@ -354,17 +316,8 @@ void ACS_BuildHelperMesh::AddActorToActor(const FTransform& f_ActorTransform, EC
 	case ECircuitComponentType::Receiver :
 		{
 			ACS_LaserReceiver* m_Receiver = GetWorld()->SpawnActor<ACS_LaserReceiver>(LaserReceiver);
-			if(IsValid(CurrentHitMesh))
-			{
-				CurrentHitMesh->GetSocketByName(CurrentHitSocket)->AttachActor(m_Receiver, CurrentHitMesh);
-				PRINTF(-1, 10.0f, FColor::Black, "%p Attached To  %p", m_Receiver, CurrentHitMesh);
-
-				
-			}
-			else
-			{
-				m_Receiver->SetActorTransform(f_ActorTransform);
-			}
+			m_Receiver->SetActorTransform(f_ActorTransform);
+	//		m_Receiver->SetActorLocation(f_ActorTransform.GetLocation());
 			CheckPoweredActors();
 			m_Receiver->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
 			break;
@@ -372,16 +325,9 @@ void ACS_BuildHelperMesh::AddActorToActor(const FTransform& f_ActorTransform, EC
 	case ECircuitComponentType::PowerBlock :
 		{			
 			ACS_PowerBlock* m_PowerBlock = GetWorld()->SpawnActor<ACS_PowerBlock>(PowerBlock);
-			if(IsValid(CurrentHitMesh))
-			{
-				CurrentHitMesh->GetSocketByName(CurrentHitSocket)->AttachActor(m_PowerBlock, CurrentHitMesh);
-			}
-			else
-			{
-				m_PowerBlock->SetActorTransform(f_ActorTransform);
-			}
+			m_PowerBlock->SetActorTransform(f_ActorTransform);
 			CheckPoweredActors();
-			m_PowerBlock->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
+//			m_PowerBlock->GetParent()->TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("BuildTag.Player"));
 			m_PowerBlock->CheckPoweredState_Implementation();
 			break;
 		}

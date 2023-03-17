@@ -2,66 +2,29 @@
 
 
 #include "CS_PowerBlock.h"
+
+#include "CS_AttachPoint.h"
+#include "CS_BuildHelperMesh.h"
 #include "CS_PowerComponent.h"
-#include "Macros.h"
-#include "Sockets.h"
-#include "Engine/StaticMeshSocket.h"
+
 
 ACS_PowerBlock::ACS_PowerBlock()
-{
-	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
-	RootComponent = BaseMesh;
+{	
+	AttachPoint_1 = CreateDefaultSubobject<UCS_AttachPoint>("AttachPoint_1");
+	AttachPoint_1->SetupAttachment(BaseMesh);
 
-	PowerComp = CreateDefaultSubobject<UCS_PowerComponent>("PowerComp");
-	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
+	AttachPoint_2 = CreateDefaultSubobject<UCS_AttachPoint>("AttachPoint_2");
+	AttachPoint_2->SetupAttachment(BaseMesh);
+
+	AttachPoint_3 = CreateDefaultSubobject<UCS_AttachPoint>("AttachPoint_3");
+	AttachPoint_3->SetupAttachment(BaseMesh);
+
+	AttachPoint_4 = CreateDefaultSubobject<UCS_AttachPoint>("AttachPoint_4");
+	AttachPoint_4->SetupAttachment(BaseMesh);
 }
 
 void ACS_PowerBlock::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SocketsArray = BaseMesh->GetAllSocketNames();
-}
-
-void ACS_PowerBlock::UpdatedPower()
-{
-	TArray<AActor*> AttachedActors;
-	this->GetAttachedActors(AttachedActors);
-	for(auto AttachedActor : AttachedActors)
-	{
-		
-		if(!IsValid(AttachedActor))
-			return;
-		if(PowerComp->bIsPowered && AttachedActor->Implements<UCS_PoweredInterface>())
-		{
-			Execute_IsPowered(AttachedActor);
-		}
-		else if (!PowerComp->bIsPowered && AttachedActor->Implements<UCS_PoweredInterface>())
-		{
-			Execute_IsNotPowered(AttachedActor);
-		}
-	}
-}
-
-void ACS_PowerBlock::IsPowered_Implementation()
-{;
-	if(!PowerComp->bIsPowered)
-	{
-		PowerComp->bIsPowered = true;
-		UpdatedPower();
-	}
-}
-
-void ACS_PowerBlock::IsNotPowered_Implementation()
-{
-	if(PowerComp->bIsPowered)
-	{
-		PowerComp->bIsPowered = false;
-		UpdatedPower();
-	}
-}
-
-void ACS_PowerBlock::CheckPoweredState_Implementation()
-{
-	UpdatedPower();
 }

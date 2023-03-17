@@ -16,6 +16,8 @@ protected:
 	UCS_PowerComponent();
 
 public:
+	UPROPERTY()
+	TArray<AActor*> ReceivingPowerFromArray;
 	UPROPERTY(EditAnywhere)
 	bool bIsPowered;
 

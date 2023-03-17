@@ -16,33 +16,45 @@ ACS_LaserReceiver::ACS_LaserReceiver()
 	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
-void ACS_LaserReceiver::IsPowered_Implementation()
+void ACS_LaserReceiver::BeginPlay()
 {
-	if(!PowerComp->bIsPowered)
-	{
-		PowerComp->bIsPowered = true;
-
-		AActor* AttachedParent = GetAttachParentActor();
-		if(IsValid(AttachedParent))
-		{
-			if(AttachedParent->Implements<UCS_PoweredInterface>())
-			{
-				Execute_IsPowered(AttachedParent);
-			}
-		}
-	}
+	Super::BeginPlay();
+	TaggingSystemComp->ActiveGameplayTags.AddTag(FGameplayTag::RequestGameplayTag("ItemTag.Power.Giver"));
 }
 
-void ACS_LaserReceiver::IsNotPowered_Implementation()
+void ACS_LaserReceiver::IsPowered_Implementation(AActor* f_Actor)
 {
-	if(PowerComp->bIsPowered)
-	{
-		PowerComp->bIsPowered = false;
+	PowerComp->ReceivingPowerFromArray.AddUnique(f_Actor);
+	UpdateAttachedPowerState();	
+}
 
-		AActor* AttachedParent = GetAttachParentActor();
-		if(AttachedParent->Implements<UCS_PoweredInterface>())
+void ACS_LaserReceiver::IsNotPowered_Implementation(AActor* f_Actor)
+{
+	PowerComp->ReceivingPowerFromArray.Remove(f_Actor);
+	UpdateAttachedPowerState();	
+}
+
+void ACS_LaserReceiver::UpdateAttachedPowerState()
+{
+	AActor* AttachedParent = this->GetAttachParentActor();
+	
+	if(IsValid(AttachedParent) && AttachedParent->Implements<UCS_PoweredInterface>())
+	{
+		if(PowerComp->ReceivingPowerFromArray.Num() > 0)
 		{
-			Execute_IsNotPowered(AttachedParent);
+			if(!PowerComp->bIsPowered)
+			{
+				PowerComp->bIsPowered = true;
+				Execute_IsPowered(AttachedParent, this);
+			}
+		}
+		else
+		{
+			if(PowerComp->bIsPowered)
+			{
+				PowerComp->bIsPowered = false;
+				Execute_IsNotPowered(AttachedParent, this);
+			}
 		}
 	}
 }
