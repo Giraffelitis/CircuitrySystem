@@ -4,50 +4,88 @@
     <projectFile>Intermediate/ProjectFiles/CircuitrySystem.vcxproj</projectFile>
     <projectFile>Intermediate/ProjectFiles/UE5.vcxproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="3d0bd3c2-75b8-4a05-ad82-4c1ebdf6937a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_PlugEnd.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Character/Input/Actions/IA_AttachComponent.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/Plug_A.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/Plug_B.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PlugEnd.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PlugEnd.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerableBase.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerableBase.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_AttachPoint.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_AttachableActor.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_AttachPoint.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_AttachableActor.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Platforms/HoloLens/Config/HoloLensEngine.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/OnlineSubsystemEOS.uplugin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/ReadMe.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/OnlineSubsystemEOS.Build.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/Android/AndroidEOSHelpers.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/Android/AndroidEOSHelpers.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/EOSHelpers.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/EOSHelpers.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/EOSSettings.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/IOS/IOSEOSHelpers.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/IOS/IOSEOSHelpers.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/Mac/MacEOSHelpers.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/NboSerializerEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/NetDriverEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineAchievementsEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineAchievementsEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineLeaderboardsEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineLeaderboardsEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSessionEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSessionEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineStatsEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineStatsEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineStoreEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineStoreEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemEOSModule.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemEOSPrivate.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemEOSTypes.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemEOSTypes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineSubsystemModuleEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineTitleFileEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineTitleFileEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineUserCloudEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/OnlineUserCloudEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/SocketSubsystemEOSUtils_OnlineSubsystemEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/SocketSubsystemEOSUtils_OnlineSubsystemEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/UserManagerEOS.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/UserManagerEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/Windows/WindowsEOSHelpers.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Private/Windows/WindowsEOSHelpers.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Public/EOSSettings.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOS/Public/IOnlineSubsystemEOS.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/OnlineSubsystemEOSPlus.Build.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineAchievementsEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineAchievementsEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineExternalUIEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineExternalUIEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineLeaderboardsEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineLeaderboardsEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineSessionEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineSessionEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineStatsEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineStatsEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineStoreEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineStoreEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineSubsystemEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineSubsystemEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineSubsystemEOSPlusPrivate.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineSubsystemModuleEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineTitleFileEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineTitleFileEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineUserCloudEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineUserCloudEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineUserEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineUserEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineVoiceEOSPlus.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Private/OnlineVoiceEOSPlus.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Public/OnlineSubsystemEOSPlusModule.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/OnlineSubsystemEOS/Source/OnlineSubsystemEOSPlus/Public/OnlineSubsystemEOSPlusPackage.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_EOSGameInstance.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_EOSGameInstance.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CircuitrySystem.uproject" beforeDir="false" afterPath="$PROJECT_DIR$/CircuitrySystem.uproject" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_BuildHelperMesh.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_BuildHelperMesh.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserBeam.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserBeam.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserEmitter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserEmitter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserReceiver.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserReceiver.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_PowerBlock.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_PowerBlock.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_PowerCable.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_PowerCable.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Character/Input/CS_InputConfig.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/Input/CS_InputConfig.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Character/Input/IMC_DefaultGameplay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Character/Input/IMC_DefaultGameplay.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Level/NewMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/NewMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StaticMeshes/SM_SocketCube.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StaticMeshes/SM_SocketCube.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StaticMeshes/WP_Dagger_2.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Platforms/HoloLens/Config/HoloLensEngine.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/GameBase/CS_GameplayTags.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserEmitter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/LaserSystem/CS_LaserReceiver.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Player/CS_PlayerCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBlock.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBlock.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBlock.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerBlock.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerCable.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerCable.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerCable.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerCable.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PowerComponent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PoweredInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/PowerSystem/CS_PoweredInterface.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_BuildHelperMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/CS_BuildHelperMesh.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_BuildHelperMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/CS_BuildHelperMesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/CircuitrySystem.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/CircuitrySystem.Build.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,25 +107,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.12710154",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "CppUnrealEngineOptionsId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.12710154&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Giraf\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Giraf\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\Giraf\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Giraf\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Giraf\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Giraf\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C++ Project.CircuitrySystem">
     <configuration name="CircuitrySystem" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -221,6 +264,15 @@
       <workItem from="1678993246836" duration="3744000" />
       <workItem from="1678997111103" duration="21661000" />
       <workItem from="1679023303679" duration="32282000" />
+      <workItem from="1681935960574" duration="951000" />
+      <workItem from="1681941415642" duration="697000" />
+      <workItem from="1682041089281" duration="28000" />
+      <workItem from="1682183103634" duration="1212000" />
+      <workItem from="1682215188379" duration="4667000" />
+      <workItem from="1682739700355" duration="175000" />
+      <workItem from="1682739899546" duration="12045000" />
+      <workItem from="1682827133097" duration="2684000" />
+      <workItem from="1682830790414" duration="8274000" />
     </task>
     <servers />
   </component>
