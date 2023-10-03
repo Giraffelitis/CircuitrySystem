@@ -74,3 +74,6 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 Content/__ExternalActors__/*
 Content/__ExternalObjects__/*
+Plugins/Developer/RiderLink/*
+Content/StackOBot/Environment/Rocks/SM_RockFlats_01.uasset
+Content/StackOBot/Environment/Rocks/SM_RockFlats_02.uasset

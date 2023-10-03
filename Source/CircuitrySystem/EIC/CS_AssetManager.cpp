@@ -1,7 +1,6 @@
 // Copyright 2023 by Pace Abbott. All Rights Reserved.
 
 #include "CS_AssetManager.h"
-#include "CircuitrySystem/GameBase/CS_GameplayTags.h"
 
 
 UCS_AssetManager::UCS_AssetManager()
@@ -21,6 +20,4 @@ void UCS_AssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
 
-	//Load Native Tags
-	FCS_GameplayTags::InitializeNativeTags();
 }

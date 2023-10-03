@@ -18,9 +18,7 @@ public class CircuitrySystem : ModuleRules
 			"GameplayTags", 
 			"EnhancedInput", 
 			"PhysicsCore",
-			"CableComponent", 
-			"OnlineSubsystem",
-			"OnlineSubsystemEOS"
+			"CableComponent"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "CableComponent" });

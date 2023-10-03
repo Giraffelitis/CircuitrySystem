@@ -1,0 +1,49 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
+
+namespace CS_NativeGameplayTagLibrary
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look_Mouse);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look_Stick);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Jump);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Crouch_Pressed);	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Crouch_Released);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Interaction_RotatePos);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Interaction_RotateNeg);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Interaction_Pickup);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Interaction_Attach);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Build_ToggleBuild);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Build_SpawnComponent);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Build_DestroyComponent);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MouseWheel_Up);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_MouseWheel_Down);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Modifier_Alt_Pressed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Modifier_Alt_Released);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Modifier_Ctrl_Pressed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Modifier_Ctrl_Released);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Modifier_Shift_Pressed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Modifier_Shift_Released);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(BuildTag_Player_Private);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(BuildTag_Player_Public);
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ComponentTag_Circuit_Base);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ComponentTag_Circuit_PowerBlock);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ComponentTag_Circuit_LaserEmitter);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ComponentTag_Circuit_LaserReceiver);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ComponentTag_Circuit_PowerJumper);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ComponentTag_Circuit_Switch);
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ItemTag_Pickup_Socketable);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ItemTag_Pickup_PickedUp);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ItemTag_Power_Receiver);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ItemTag_Power_Giver);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ItemTag_Attach_Point);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(ItemTag_Attach_Used);
+};
