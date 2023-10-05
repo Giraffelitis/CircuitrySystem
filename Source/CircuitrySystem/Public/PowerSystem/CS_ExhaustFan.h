@@ -4,40 +4,33 @@
 
 #include "CoreMinimal.h"
 #include "CS_PowerableBase.h"
-#include "CS_Door.generated.h"
+#include "CS_ExhaustFan.generated.h"
 
 UCLASS()
-class CIRCUITRYSYSTEM_API ACS_Door : public ACS_PowerableBase
+class CIRCUITRYSYSTEM_API ACS_ExhaustFan : public ACS_PowerableBase
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ACS_Door();
+	ACS_ExhaustFan();
+
 	virtual void BeginPlay() override;
 	void UpdatePowerState();
 	virtual void IsPowered_Implementation(AActor* f_Actor) override;
 	virtual void IsNotPowered_Implementation(AActor* f_Actor) override;
-	void StartDoorMovementTimer();
-	void AdjustDoorPanelPosition();
+	void StartFanTimer();
+	void SpinFan();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* DoorFrame;
+	UStaticMeshComponent* FanHousing;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* LeftDoorPanel;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* RightDoorPanel;
+	UStaticMeshComponent* FanBlade;
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* PowerSocket;
-
-	FVector RightDoorPanelClosedLocation;
-	FVector LeftDoorPanelClosedLocation;
-	FVector RightDoorPanelOpenLocation;
-	FVector LeftDoorPanelOpenLocation;
 	
 	UPROPERTY(EditAnywhere)
-	bool bDoorIsClosed;
+	bool bFanIsRunning;
 
-	FTimerHandle DoorTimerHandle;
-
+	FTimerHandle FanTimerHandle;
 };

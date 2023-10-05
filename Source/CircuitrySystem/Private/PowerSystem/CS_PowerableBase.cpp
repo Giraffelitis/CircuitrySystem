@@ -40,8 +40,6 @@ void ACS_PowerableBase::PostInitializeComponents()
 void ACS_PowerableBase::BeginPlay()
 {
 	Super::BeginPlay();
-	TaggingSystemComp->ActiveGameplayTags.AddTag(ItemTag_Power_Giver);
-	TaggingSystemComp->ActiveGameplayTags.AddTag(ItemTag_Power_Giver);
 }
 
 void ACS_PowerableBase::Destroyed()

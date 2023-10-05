@@ -10,7 +10,6 @@
 
 using namespace CS_NativeGameplayTagLibrary;
 
-
 // Sets default values for this component's properties
 UCS_AttachPoint::UCS_AttachPoint()
 {
@@ -113,4 +112,3 @@ void UCS_AttachPoint::OnDetachActor(ACS_AttachableActor* f_AttachActor)
 		ICS_PoweredInterface::Execute_CheckPoweredState(f_AttachActor);
 	AttachPointUpdate.Broadcast(false, f_AttachActor);
 }
-

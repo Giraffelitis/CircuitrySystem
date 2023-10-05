@@ -219,7 +219,6 @@ void ACS_LaserEmitter::ShowBeam(int f_ArrayIndex, float f_BeamLength, float f_To
 	BeamArray[f_ArrayIndex]->SetActorHiddenInGame(false);
 }
 
-
 void ACS_LaserEmitter::HideBeam(int f_ArrayIndex)
 {
 	BeamArray[f_ArrayIndex]->SetActorHiddenInGame(true);
