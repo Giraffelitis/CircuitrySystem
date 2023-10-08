@@ -17,6 +17,8 @@ public:
 	// Sets default values for this actor's properties
 	ACS_ReflectiveSlice45();
 
+	virtual void BeginPlay() override;
+
 	virtual bool IsReflective();
 
 	UPROPERTY(EditAnywhere)

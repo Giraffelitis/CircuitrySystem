@@ -11,26 +11,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d0bd3c2-75b8-4a05-ad82-4c1ebdf6937a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Blueprints/BP_ExhaustFan.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Widget/WBP_Crosshair.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/PowerSystem/CS_ExhaustFan.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/PowerSystem/CS_ExhaustFan.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_Door.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_Door.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Level/Lobby.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/Lobby.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Level/NewMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/NewMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materials/M_Generic.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/M_Generic.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materials/M_concrete_paint.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/M_concrete_paint.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materials/M_metal.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/M_metal.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/MD_Chevron.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/MD_Chevron.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/MD_Grunge.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/MD_Grunge.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/M_HoloGrid.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/M_HoloGrid.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/EIC/CS_AssetManager.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/EIC/CS_AssetManager.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/Components/CS_AttachPoint.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/Components/CS_AttachPoint.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/LaserSystem/CS_LaserEmitter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/LaserSystem/CS_LaserEmitter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/PowerSystem/CS_Door.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/PowerSystem/CS_Door.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/PowerSystem/CS_PowerableBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/PowerSystem/CS_PowerableBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/PowerSystem/CS_Door.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/PowerSystem/CS_Door.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/StackOBot/Environment/Materials/MI_ConcreteTileable.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/LaserSystem/CS_ReflectiveCube.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/LaserSystem/CS_ReflectiveCube.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Private/LaserSystem/CS_ReflectiveSlice45.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Private/LaserSystem/CS_ReflectiveSlice45.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/LaserSystem/CS_ReflectiveCube.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/LaserSystem/CS_ReflectiveCube.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/LaserSystem/CS_ReflectiveSlice45.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/LaserSystem/CS_ReflectiveSlice45.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +55,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -92,7 +85,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.qodana&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -351,6 +344,8 @@
       <workItem from="1696479044466" duration="93000" />
       <workItem from="1696479321730" duration="708000" />
       <workItem from="1696511221995" duration="2511000" />
+      <workItem from="1696546017722" duration="5605000" />
+      <workItem from="1696736543424" duration="2406000" />
     </task>
     <servers />
   </component>

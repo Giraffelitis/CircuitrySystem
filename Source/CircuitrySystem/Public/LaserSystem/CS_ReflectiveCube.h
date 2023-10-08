@@ -17,6 +17,8 @@ public:
 	// Sets default values for this actor's properties
 	ACS_ReflectiveCube();
 
+	virtual void BeginPlay() override;
+
 	virtual bool IsReflective();
 
 	UPROPERTY(EditAnywhere)

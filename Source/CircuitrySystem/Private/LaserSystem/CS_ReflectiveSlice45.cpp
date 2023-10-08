@@ -10,11 +10,16 @@ ACS_ReflectiveSlice45::ACS_ReflectiveSlice45()
 {
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("Base Mesh");
 	RootComponent = BaseMesh;
+	
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
+}
 
+void ACS_ReflectiveSlice45::BeginPlay()
+{
+	Super::BeginPlay();	
+	
 	BaseMesh->SetSimulatePhysics(true);
 	BaseMesh->SetMassOverrideInKg(NAME_None, 250.0f, true);
-
-	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 bool ACS_ReflectiveSlice45::IsReflective()

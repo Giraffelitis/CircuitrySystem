@@ -10,10 +10,15 @@ ACS_ReflectiveCube::ACS_ReflectiveCube()
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("Base Mesh");
 	RootComponent = BaseMesh;
 
+	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
+}
+
+void ACS_ReflectiveCube::BeginPlay()
+{
+	Super::BeginPlay();
+
 	BaseMesh->SetSimulatePhysics(true);	
 	BaseMesh->SetMassOverrideInKg(NAME_None, 500.0f, true);
-
-	TaggingSystemComp = CreateDefaultSubobject<UCS_TaggingSystem>("TaggingSystemComp");
 }
 
 bool ACS_ReflectiveCube::IsReflective()
