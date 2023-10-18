@@ -25,6 +25,9 @@ public:
 	virtual void IsPowered_Implementation(AActor* f_Actor) override;
 	virtual void IsNotPowered_Implementation(AActor* f_Actor) override;
 	virtual void CheckPoweredState_Implementation() override;
+
+	/** */
+	
 	UFUNCTION()
 	void UpdateAttachedPowerState();
 	
