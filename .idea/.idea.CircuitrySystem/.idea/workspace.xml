@@ -11,23 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d0bd3c2-75b8-4a05-ad82-4c1ebdf6937a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Content/Level/_GENERATED/Giraf/Sphere_9C0AAD4D.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Materials/M_StarryNight.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/StackOBot/UI/PauseMenu/BPW_MainMenu.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/StaticMeshes/SM_SkySphere1.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Textures/1289176.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Textures/1289176_Mat.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Content/Textures/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/p7829cbdoutt9sp0chqncti7ci-7639a471d13968f8d5ba6565bff6ca60.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Textures/target.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CircuitrySystem/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/BP_LaserBeam.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/BP_LaserBeam.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Level/NewMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/NewMap.umap" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Level/StartScreen.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Level/StartScreen.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materials/M_Emissive.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/M_Emissive.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Materials/M_Emissive_Inst.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Materials/M_Emissive_Inst.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StackOBot/UI/BPI_HUD_Interface.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StackOBot/UI/BPI_HUD_Interface.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/StackOBot/UI/PauseMenu/BPW_PauseMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/StackOBot/UI/PauseMenu/BPW_PauseMenu.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CircuitrySystem/Public/PowerSystem/CS_PowerableBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CircuitrySystem/Public/PowerSystem/CS_PowerableBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Widget/WBP_Crosshair.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Widget/WBP_Crosshair.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -357,6 +348,8 @@
       <workItem from="1697257549345" duration="1621000" />
       <workItem from="1697330358152" duration="1197000" />
       <workItem from="1697507166662" duration="843000" />
+      <workItem from="1697649586282" duration="642000" />
+      <workItem from="1697687177710" duration="1931000" />
     </task>
     <servers />
   </component>
